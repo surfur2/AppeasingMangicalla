@@ -1,0 +1,72 @@
+#include "Globals.h"
+#include "BoardManager.h"
+#include "DustBunny.h"
+#include <string>
+
+
+DustBunny::DustBunny(int cRow, int cCol)
+{
+	displayChar = Globals::GetDustBunnyDisplayChar();
+	goldVal = Globals::GetDustBunnyGoldVal();
+	health = Globals::GetDustBunnyHealth();
+	minDamage = Globals::GetDustBunnyMinDamage();
+	maxDamage = Globals::GetDustBunnyMaxDamage();
+	currentRow = cRow;
+	currentCol = cCol;
+	canMoveThrough = false;
+	hasMoved = false;
+	type = GameObjects::dustbunny;
+}
+
+DustBunny::~DustBunny() {}
+
+bool DustBunny::AttemptMove(const int& yDir,const int& xDir)
+{
+	return true;
+}
+
+void DustBunny::MovePiece(const int& yDir,const int& xDir) { }
+
+// We pass in the current possition of the enemy
+Mover* DustBunny::AttemptAttack(const int& yDir,const int& xDir)
+{
+	// Up
+	Mover* player = BoardManager::Instance()->CanEnemyAttack(currentRow - 1, currentCol);
+	if (player != nullptr)
+		return player;
+
+	// Right
+	player = BoardManager::Instance()->CanEnemyAttack(currentRow, currentCol + 1);
+	if (player != nullptr)
+		return player;
+
+	// Down
+	player = BoardManager::Instance()->CanEnemyAttack(currentRow + 1, currentCol);
+	if (player != nullptr)
+		return player;
+
+	// Left
+	player = BoardManager::Instance()->CanEnemyAttack(currentRow, currentCol - 1);
+	if (player != nullptr)
+		return player;
+
+	return player;
+}
+
+void DustBunny::Attack(Mover& hitCollision)
+{
+	int damage = (rand() % (maxDamage - minDamage)) + minDamage;
+	hitCollision.TakeDamage(damage);
+	BoardManager::Instance()->AddPlayerDamageTaken(damage);
+	string output = "Enemy  ";
+	output += displayChar;
+	output += " attacked player for: ";
+	output = output + std::to_string(damage);
+	BoardManager::Instance()->AddPrintAction(output);
+}
+
+
+
+
+
+

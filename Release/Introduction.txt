@@ -1,0 +1,28 @@
+ ____  ____  ____  _____ ____  ____  _  _      _____
+/  _ \/  __\/  __\/  __//  _ \/ ___\/ \/ \  /|/  __/
+| / \||  \/||  \/||  \  | / \||    \| || |\ ||| |  _
+| |-|||  __/|  __/|  /_ | |-||\___ || || | \||| |_//
+\_/ \|\_/   \_/   \____\\_/ \|\____/\_/\_/  \|\____\
+                                                    
+ _      ____  _      _____ _  ____ ____  _     _     ____ 
+/ \__/|/  _ \/ \  /|/  __// \/   _Y  _ \/ \   / \   /  _ \
+| |\/||| / \|| |\ ||| |  _| ||  / | / \|| |   | |   | / \|
+| |  ||| |-||| | \||| |_//| ||  \_| |-||| |_/\| |_/\| |-||
+\_/  \|\_/ \|\_/  \|\____\\_/\____|_/ \|\____/\____/\_/ \|
+By: Nate Blair
+/* Graphic provided by http://www.network-science.de/ascii/ */
+
+__________________________________________________________________
+
+Introduction:
+
+Mangicalla: 'Ah you are here... excellent!'
+
+Mangicalla: 'My manor has become incredibly messy, I need someone to clean out the filth.'
+
+Mangicalla: 'You are that person.'
+
+Mangicalla: 'What is that? Will you be paid? 
+You dare to ask the great Mangicalla for monitory compensation?!?!'
+
+Mangicalla: 'Come find me when you are done and I will CONSIDER not evaporating you on the spot!'
