@@ -2,8 +2,9 @@
 
 
 
-Interactable::Interactable()
+Interactable::Interactable(int cRow, int cCol) : GameObject(cRow, cCol)
 {
+	canMoveThrough = false;
 }
 
 

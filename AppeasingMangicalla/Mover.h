@@ -9,6 +9,7 @@ class Mover :
 	public GameObject
 {
 public:
+	Mover(int cRow, int cCol);
 	Mover();
 	~Mover();
 	bool TakeDamage(int dmg) { 
@@ -33,5 +34,6 @@ protected:
 	int minDamage;
 	int maxDamage;
 	int health;
+	int radiusFov;
 };
 

@@ -4,13 +4,10 @@
 #include <string>
 
 
-Mangicalla::Mangicalla(int cRow, int cCol)
+Mangicalla::Mangicalla(int cRow, int cCol) : Interactable(cRow, cCol)
 {
 	displayChar = Globals::GetMangicallaDisplayChar();
 	goldOnHand = Globals::GetMangicallaGoldVal();
-	currentRow = cRow;
-	currentCol = cCol;
-	canMoveThrough = false;
 	type = GameObjects::mangicalla;
 }
 

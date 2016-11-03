@@ -24,6 +24,7 @@ private:
 	static int playerHealth;
 	static int playerMinDamage;
 	static int playerMaxDamage;
+	static int playerFov;
 
 	// DustBunny constants
 	static char dustBunnyDisplayChar;
@@ -31,6 +32,7 @@ private:
 	static int dustBunnyHealth;
 	static int dustBunnyMinDamage;
 	static int dustBunnyMaxDamage;
+	static int dustBunnyFov;
 
 	// mangicalla constants
 	static char mangicallaDisplayChar;
@@ -52,6 +54,7 @@ public:
 	static int GetPlayerHealth() { return playerHealth; };
 	static int GetPlayerMinDamage() { return playerMinDamage; };
 	static int GetPlayerMaxDamage() { return playerMaxDamage;};
+	static int GetPlayerFov() { return playerFov; };
 
 	// DustBunny Get constants
 	static char GetDustBunnyDisplayChar() { return dustBunnyDisplayChar; };
@@ -59,6 +62,7 @@ public:
 	static int GetDustBunnyHealth() { return dustBunnyHealth; };
 	static int GetDustBunnyMinDamage() { return dustBunnyMinDamage; };
 	static int GetDustBunnyMaxDamage() { return dustBunnyMaxDamage; };
+	static int GetDustBunnyFov() { return dustBunnyFov; };
 
 	// DustBunny Get constants
 	static char GetMangicallaDisplayChar() { return mangicallaDisplayChar; };

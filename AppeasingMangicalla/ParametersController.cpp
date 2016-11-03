@@ -73,6 +73,9 @@ void ParametersController::ReadParameters()
 
 				pos1 = params.find('/', pos2 + 1);
 				Globals::playerMaxDamage = stoi(params.substr(pos2 + 1, pos1), nullptr);
+
+				pos2 = params.find('/', pos1 + 1);
+				Globals::playerFov = stoi(params.substr(pos1 + 1, pos2), nullptr);
 			}
 			else if (i == 2)
 			{
@@ -93,6 +96,9 @@ void ParametersController::ReadParameters()
 
 				pos1 = params.find('/', pos2 + 1);
 				Globals::dustBunnyMaxDamage = stoi(params.substr(pos2 + 1, pos1), nullptr);
+
+				pos2 = params.find('/', pos1 + 1);
+				Globals::dustBunnyFov = stoi(params.substr(pos1 + 1, pos2), nullptr);
 			}
 			else if (i == 3)
 			{

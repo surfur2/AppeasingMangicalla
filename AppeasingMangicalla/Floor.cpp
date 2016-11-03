@@ -1,11 +1,9 @@
 #include "Floor.h"
 
-Floor::Floor(int cRow,int cCol)
+Floor::Floor(int cRow,int cCol) : GameObject(cRow, cCol)
 {
 	displayChar = _FLOOR_CHAR;
 	canMoveThrough = _CAN_MOVE_THROUGH;
-	currentRow = cRow;
-	currentCol = cCol;
 	type = GameObjects::floor;
 }
 

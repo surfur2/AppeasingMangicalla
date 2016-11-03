@@ -29,6 +29,9 @@
 *.app
 AppeasingMangicalla/Release/
 AppeasingMangicalla.VC.db
+<<<<<<< HEAD
 AppeasingMangicalla/Debug/
-AppeasingMangicalla.VC.VC.opendb
 *.opendb
+=======
+AppeasingMangicalla.VC.VC.opendb
+>>>>>>> 3573eb140c6ab7ad34be4135c7be21322268c197

@@ -4,17 +4,13 @@
 #include <string>
 
 
-DustBunny::DustBunny(int cRow, int cCol)
+DustBunny::DustBunny(int cRow, int cCol) : Mover(cRow, cCol)
 {
 	displayChar = Globals::GetDustBunnyDisplayChar();
 	goldVal = Globals::GetDustBunnyGoldVal();
 	health = Globals::GetDustBunnyHealth();
 	minDamage = Globals::GetDustBunnyMinDamage();
 	maxDamage = Globals::GetDustBunnyMaxDamage();
-	currentRow = cRow;
-	currentCol = cCol;
-	canMoveThrough = false;
-	hasMoved = false;
 	type = GameObjects::dustbunny;
 }
 
