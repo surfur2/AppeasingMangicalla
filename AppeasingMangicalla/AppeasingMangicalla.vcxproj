@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DustBunny.cpp" />
+    <ClCompile Include="DustBunnySmart.cpp" />
     <ClCompile Include="EmptySpace.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -157,12 +158,14 @@
     <ClCompile Include="Mangicalla.cpp" />
     <ClCompile Include="Mover.cpp" />
     <ClCompile Include="ParametersController.cpp" />
+    <ClCompile Include="PathFinder.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WindowController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DustBunny.h" />
+    <ClInclude Include="DustBunnySmart.h" />
     <ClInclude Include="EmptySpace.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="GameObject.h" />
@@ -173,6 +176,7 @@
     <ClInclude Include="Mangicalla.h" />
     <ClInclude Include="Mover.h" />
     <ClInclude Include="ParametersController.h" />
+    <ClInclude Include="PathFinder.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="WindowController.h" />

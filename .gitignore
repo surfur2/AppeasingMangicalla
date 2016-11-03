@@ -29,3 +29,5 @@
 *.app
 AppeasingMangicalla/Release/
 AppeasingMangicalla.VC.db
+AppeasingMangicalla/Debug/
+*.opendb

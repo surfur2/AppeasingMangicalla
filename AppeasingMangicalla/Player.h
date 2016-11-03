@@ -35,7 +35,7 @@ public:
 	bool IsPlayerDead();
 
 	// Define the parameters we want to output for the player.
-	friend ostream &operator<<(ostream &output, const Player &player)
+	friend std::ostream &operator<<(std::ostream &output, const Player &player)
 	{
 		output << "Steps taken: " << player.stepsTaken << "\n";
 		output << "Damage taken: " << player.damageTaken << "\n";

@@ -1,6 +1,9 @@
 #pragma once
 #include "Mover.h"
 
+/* You cab create a new type of enemy that uses a lof of the same
+ code as dust bunny, but will overload those two methods.
+ I was prepared for this next step.*/
 /* Basic type of enemy.
    Cannot move, only attack.*/
 class DustBunny :

@@ -20,7 +20,9 @@ public:
 	};
 
 	// All objects that are able to move in game should override these methods
+	// Check if the piece should move. Return vlaue is if the piece should move
 	virtual bool AttemptMove(const int& yDir, const int& xDir) = 0;
+	//Execute the move
 	virtual void MovePiece(const int& yDir, const int& xDir) = 0;
 	virtual Mover* AttemptAttack(const int& yDir, const int& xDir) = 0;
 	virtual void Attack(Mover& hitCollision) = 0;
