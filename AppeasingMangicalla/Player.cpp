@@ -6,16 +6,14 @@
 
 // Base constructor for Player
 // Most of this information can be pulled out from a .txt fisle instead
-Player::Player(int cRow, int cCol)
+Player::Player(int cRow, int cCol) : Mover (cRow, cCol)
 {
 	displayChar = Globals::GetPlayerDisplayChar();
 	goldVal = Globals::GetPlayerGoldVal();
 	health = Globals::GetPlayerHealth();
 	minDamage = Globals::GetPlayerMinDamage();
 	maxDamage = Globals::GetPlayerMaxDamage();
-	currentRow = cRow;
-	currentCol = cCol;
-	canMoveThrough = false;
+	radiusFov = Globals::GetPlayerFov();
 	type = GameObjects::player;
 	damageTaken = 0;
 	stepsTaken = 0;

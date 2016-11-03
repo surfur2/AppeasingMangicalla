@@ -11,12 +11,14 @@ int Globals::playerGoldVal;
 int Globals::playerHealth;
 int Globals::playerMinDamage;
 int Globals::playerMaxDamage;
+int Globals::playerFov;
 
 char Globals::dustBunnyDisplayChar;
 int Globals::dustBunnyGoldVal;
 int Globals::dustBunnyHealth;
 int Globals::dustBunnyMinDamage;
 int Globals::dustBunnyMaxDamage;
+int Globals::dustBunnyFov;
 
 char Globals::mangicallaDisplayChar;
 int Globals::mangicallaGoldVal;

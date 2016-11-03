@@ -1,6 +1,6 @@
 #include "Wall.h"
 
-Wall::Wall(int cRow, int cCol)
+Wall::Wall(int cRow, int cCol) : GameObject ()
 {
 	displayChar = _WALL_CHAR;
 	canMoveThrough = _CANNOT_MOVE_THROUGH;

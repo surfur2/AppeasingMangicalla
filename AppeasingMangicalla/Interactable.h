@@ -6,7 +6,7 @@ class Interactable :
 	public GameObject
 {
 public:
-	Interactable();
+	Interactable(int cRow, int cCol);
 	~Interactable();
 	virtual int Interact() = 0;
 };

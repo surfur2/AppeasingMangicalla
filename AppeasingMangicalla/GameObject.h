@@ -24,6 +24,7 @@ struct GameObjects
 class GameObject
 {
 public:
+	GameObject(int cRow, int cCol);
 	GameObject();
 	// Do not want an instance of class, so make it pure virtual
 	virtual ~GameObject() = 0;
@@ -51,6 +52,8 @@ public:
 	char displayChar;
 	bool canMoveThrough;
 	bool canBeAttacked;
+	bool playerCanSee;
+	bool canEnemiesSee;
 	int currentRow;
 	int currentCol;
 	int type;
