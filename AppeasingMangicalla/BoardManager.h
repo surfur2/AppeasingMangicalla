@@ -43,6 +43,7 @@ public:
 	Mover* CanPlayerAttack(const int& nRow, const int& nCol);
 	Interactable* CanPlayerInteract(const int& nRow, const int& nCol);
 	Player* CanEnemyAttack(const int& nRow, const int& cCol);
+	bool CanEnemySeePlayer(Mover* enemy);
 
 	// Remove a piece from the board if it was destroyed
 	void DestroyPiece(Mover* enemy);

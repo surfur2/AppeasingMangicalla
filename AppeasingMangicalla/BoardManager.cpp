@@ -19,6 +19,11 @@ BoardManager* BoardManager::Instance()
 	return instance;
 }
 
+bool CanEnemySeePlayer(Mover* enemy)
+{
+	return true;
+}
+
 void BoardManager::DestroyInstance()
 {
 	delete BoardManager::instance;
