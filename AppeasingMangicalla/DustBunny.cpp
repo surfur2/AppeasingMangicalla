@@ -16,12 +16,16 @@ DustBunny::DustBunny(int cRow, int cCol) : Mover(cRow, cCol)
 
 DustBunny::~DustBunny() {}
 
+// This is where you will check for FOV movement. If in FOV, then green light to move
 bool DustBunny::AttemptMove(const int& yDir,const int& xDir)
 {
 	return true;
 }
 
-void DustBunny::MovePiece(const int& yDir,const int& xDir) { }
+// This is where A* will be used for finding the path to player.
+void DustBunny::MovePiece(const int& yDir,const int& xDir) 
+{ 
+}
 
 // We pass in the current possition of the enemy
 Mover* DustBunny::AttemptAttack(const int& yDir,const int& xDir)

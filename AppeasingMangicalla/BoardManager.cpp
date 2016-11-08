@@ -211,7 +211,7 @@ bool BoardManager::AttemptPlayerAction(const int& yDir, const int& xDir)
 	bool playerCanMove = false;
 	bool playerCanInteract = false;
 
-	// Check for a valid player actions
+	// Check for a valid player actions. If there is no valid player action, then the enemies will not do anything.
 	Mover* hitCollision = player->AttemptAttack(yDir, xDir);
 	Interactable* interactable = player->AttemptInteraction(yDir, xDir);
 	if (hitCollision != nullptr)
@@ -224,6 +224,7 @@ bool BoardManager::AttemptPlayerAction(const int& yDir, const int& xDir)
 	// We need to make sure that there was some sort of valid input before allowing enemies to move
 	if (playerCanAttack || playerCanMove || playerCanInteract)
 	{
+		// The flow of action is player attack->enemy attack->player move->enemies move
 		if (playerCanAttack)
 			player->Attack(*hitCollision);
 
@@ -249,6 +250,7 @@ bool BoardManager::AttemptPlayerAction(const int& yDir, const int& xDir)
 	return false;
 }
 
+// Loop all enemies and attempt an attack
 void BoardManager::HaveEnemiesAttack()
 {
 	for (int i = 0; i < enemies.size(); i++)
@@ -262,6 +264,7 @@ void BoardManager::HaveEnemiesAttack()
 	}
 }
 
+// If they have not already acted, then move enemies
 void BoardManager::HaveEnemiesMove()
 {
 	for (int i = 0; i < enemies.size(); i++)
@@ -269,6 +272,7 @@ void BoardManager::HaveEnemiesMove()
 		if (!enemies[i]->hasMoved)
 			enemies[i]->MovePiece(enemies[i]->currentRow, enemies[i]->currentCol);
 
+		// We also reset the movement here
 		enemies[i]->hasMoved = false;
 	}
 
