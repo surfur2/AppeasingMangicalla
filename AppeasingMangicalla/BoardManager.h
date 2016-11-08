@@ -31,6 +31,7 @@ private:
 	// Enemy movements and attacks
 	void HaveEnemiesAttack();
 	void HaveEnemiesMove();
+	void ResetVision();
 public:
 	// Accessor/destructor for singleton
 	static BoardManager* Instance();
@@ -39,11 +40,14 @@ public:
 	// Movement for all pieces on the board
 	bool CanMove(const int& nRow, const int& nCol);
 	bool MovePiece(const int cRow, const int cCol, const int nRow, const int nCol);
+
 	// Check the board state for valid types of actions
 	Mover* CanPlayerAttack(const int& nRow, const int& nCol);
 	Interactable* CanPlayerInteract(const int& nRow, const int& nCol);
 	Player* CanEnemyAttack(const int& nRow, const int& cCol);
 	bool CanEnemySeePlayer(Mover* enemy);
+	void UpdatePlayerVision(int cRow, int cCol);
+	void UpdateEnemyVision(int cRow, int cCol);
 
 	// Remove a piece from the board if it was destroyed
 	void DestroyPiece(Mover* enemy);

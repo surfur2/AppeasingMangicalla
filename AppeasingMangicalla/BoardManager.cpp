@@ -19,16 +19,12 @@ BoardManager* BoardManager::Instance()
 	return instance;
 }
 
-bool CanEnemySeePlayer(Mover* enemy)
-{
-	return true;
-}
-
 void BoardManager::DestroyInstance()
 {
 	delete BoardManager::instance;
 	instance = nullptr;
 }
+
 
 BoardManager::BoardManager()
 {
@@ -92,11 +88,16 @@ BoardManager::~BoardManager()
 void BoardManager::WriteGrid(const bool& needsHelp, const bool& needsKey)
 {
 	system("CLS");
+	player->CalculatePlayerFov();
+
 	for (int i = 0; i < Globals::GetRows(); i++)
 	{
 		for (int k = 0; k < Globals::GetCols(); k++)
 		{
-			cout << board[i][k]->displayChar;
+			if (board[i][k]->playerCanSee)
+				cout << board[i][k]->displayChar;
+			else
+				cout << " ";
 		}
 
 		cout << endl;
@@ -241,6 +242,7 @@ bool BoardManager::AttemptPlayerAction(const int& yDir, const int& xDir)
 		HaveEnemiesMove();
 
 		player->AddStepTaken();
+		ResetVision();
 		return true;
 	}
 
@@ -389,5 +391,32 @@ void BoardManager::operator=(const BoardManager& rhs)
 			AddPrintAction(rhs.printableActions[i]);
 	}
 
+}
+
+bool BoardManager::CanEnemySeePlayer(Mover* enemy)
+{
+	return true;
+}
+
+void BoardManager::UpdatePlayerVision(int cRow, int cCol)
+{
+	board[cRow][cCol]->playerCanSee = true;
+}
+
+void BoardManager::UpdateEnemyVision(int cRow, int cCol)
+{
+	board[cRow][cCol]->canEnemiesSee = true;
+}
+
+void BoardManager::ResetVision()
+{
+	for (int i = 0; i < board.size(); i++)
+	{
+		for (int k = 0; k < board[i].size(); k++)
+		{
+			board[i][k]->canEnemiesSee = false;
+			board[i][k]->playerCanSee = false;
+		}
+	}
 }
 

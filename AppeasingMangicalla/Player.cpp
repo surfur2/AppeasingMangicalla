@@ -106,4 +106,22 @@ bool Player::IsPlayerDead()
 	return false;
 }
 
+void Player::CalculatePlayerFov()
+{
+	for (int i = (currentRow - radiusFov); i <= currentRow + radiusFov; i++)
+	{
+		if (i >= 0 && i < Globals::GetRows())
+		{
+			for (int k = (currentCol - radiusFov); k <= currentCol + radiusFov; k++)
+			{
+				if (k >= 0 && k < Globals::GetCols())
+				{
+					BoardManager::Instance()->UpdatePlayerVision(i, k);
+				}
+			}
+		}
+	}
+}
+
+
 
