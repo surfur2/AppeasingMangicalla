@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Globals.h"
 
 class BoardManager;
 
@@ -27,9 +28,13 @@ public:
 	virtual void MovePiece(const int& yDir, const int& xDir) = 0;
 	virtual Mover* AttemptAttack(const int& yDir, const int& xDir) = 0;
 	virtual void Attack(Mover& hitCollision) = 0;
+	void CalculateFov();
 
 	int goldVal;
 	bool hasMoved;
+
+	// For A* movement, trigger if th enemy has seen the player at some point.
+	bool hasSeenPlayer;
 protected:
 	int minDamage;
 	int maxDamage;

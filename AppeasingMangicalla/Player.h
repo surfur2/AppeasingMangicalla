@@ -18,7 +18,6 @@ public:
 	void MovePiece(const int& yDir, const int& xDir);
 	Mover* AttemptAttack(const int& yDir, const int& xDir);
 	void Attack(Mover& hitCollision);
-	void CalculatePlayerFov();
 
 	// Only the player can interact with objects
 	Interactable* AttemptInteraction(const int& yDir, const int& xDir);

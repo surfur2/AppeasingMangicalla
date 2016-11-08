@@ -88,7 +88,7 @@ BoardManager::~BoardManager()
 void BoardManager::WriteGrid(const bool& needsHelp, const bool& needsKey)
 {
 	system("CLS");
-	player->CalculatePlayerFov();
+	player->CalculateFov();
 
 	for (int i = 0; i < Globals::GetRows(); i++)
 	{
@@ -204,7 +204,6 @@ Player* BoardManager::CanEnemyAttack(const int& nRow, const int& nCol)
 	return nullptr;
 }
 
-
 bool BoardManager::AttemptPlayerAction(const int& yDir, const int& xDir)
 {
 	bool playerCanAttack = false;
@@ -277,6 +276,7 @@ void BoardManager::HaveEnemiesMove()
 	}
 
 }
+
 
 // Destroy an enemy from the game
 void BoardManager::DestroyPiece(Mover* enemy)
@@ -399,17 +399,18 @@ void BoardManager::operator=(const BoardManager& rhs)
 
 bool BoardManager::CanEnemySeePlayer(Mover* enemy)
 {
-	return true;
+	return enemy->hasSeenPlayer;
 }
 
 void BoardManager::UpdatePlayerVision(int cRow, int cCol)
 {
 	board[cRow][cCol]->playerCanSee = true;
-}
 
-void BoardManager::UpdateEnemyVision(int cRow, int cCol)
-{
-	board[cRow][cCol]->canEnemiesSee = true;
+	if (board[cRow][cCol]->IsEnemy())
+	{
+		Mover* temp = dynamic_cast<Mover*>(board[cRow][cCol]);
+		temp->hasSeenPlayer = true;
+	}
 }
 
 void BoardManager::ResetVision()
@@ -418,7 +419,6 @@ void BoardManager::ResetVision()
 	{
 		for (int k = 0; k < board[i].size(); k++)
 		{
-			board[i][k]->canEnemiesSee = false;
 			board[i][k]->playerCanSee = false;
 		}
 	}

@@ -47,7 +47,6 @@ public:
 	Player* CanEnemyAttack(const int& nRow, const int& cCol);
 	bool CanEnemySeePlayer(Mover* enemy);
 	void UpdatePlayerVision(int cRow, int cCol);
-	void UpdateEnemyVision(int cRow, int cCol);
 
 	// Remove a piece from the board if it was destroyed
 	void DestroyPiece(Mover* enemy);

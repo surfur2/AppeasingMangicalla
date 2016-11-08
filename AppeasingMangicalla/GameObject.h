@@ -53,7 +53,6 @@ public:
 	bool canMoveThrough;
 	bool canBeAttacked;
 	bool playerCanSee;
-	bool canEnemiesSee;
 	int currentRow;
 	int currentCol;
 	int type;
