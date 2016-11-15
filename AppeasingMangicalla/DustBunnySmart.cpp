@@ -1,5 +1,6 @@
 #include "DustBunnySmart.h"
 #include "BoardManager.h"
+#include "PathFinder.h"
 
 
 
@@ -22,8 +23,10 @@ bool DustBunnySmart::AttemptMove()
 void DustBunnySmart::MovePiece(const int& playerPosY, const int& playerPosX)
 {
 	//Find Path!!!
-	int xDir = 0;
-	int yDir = 0;
+	PathFinder pF(currentRow, currentCol, playerPosX, playerPosY);
+	std::pair<int, int> moveTile = pF.FindPath();
+	int xDir = moveTile.first;
+	int yDir = moveTile.second;
 
 	if (this->AttemptMove())
 	{
