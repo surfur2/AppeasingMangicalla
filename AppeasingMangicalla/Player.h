@@ -33,7 +33,8 @@ public:
 	int GetStepsTaken() { return stepsTaken; };
 	int GetDamageTaken() { return damageTaken; };
 	bool IsPlayerDead();
-
+	void CalculateFov();
+	
 	// Define the parameters we want to output for the player.
 	friend std::ostream &operator<<(std::ostream &output, const Player &player)
 	{
@@ -44,5 +45,6 @@ public:
 private:
 	int stepsTaken;
 	int damageTaken;
+	void DrawlineMod(int x, int y, int x2, int y2);
 };
 

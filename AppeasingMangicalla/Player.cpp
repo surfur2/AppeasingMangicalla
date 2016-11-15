@@ -1,6 +1,8 @@
 #include "Globals.h"
 #include "Player.h"
 #include "BoardManager.h"
+#include "Wall.h"
+#include <math.h>
 #include <time.h>
 #include <string>
 
@@ -41,13 +43,51 @@ Player::~Player()
 {
 }
 
+/* Modified from: http://www.roguebasin.com/index.php?title=LOS_by_Odd */
+void Player::CalculateFov()
+{
+	int x, y;
+
+	for (double f = 0; f < 3.14 * 2; f += 0.05) {
+		x = int(radiusFov*cos(f)) + currentCol;
+		y = int(radiusFov*sin(f)) + currentRow;
+		DrawlineMod(currentCol, currentRow, x, y);
+	}
+}
+
+void Player::DrawlineMod(int x, int y, int x2, int y2) {
+	int dx = abs(x - x2);
+	int dy = abs(y - y2);
+	double s = double(.10 / (dx>dy ? dx : dy));
+	double t = 0.0;
+	while (t < 1.00) {
+		dx = int((1.00 - t)*x + t*x2);
+		dy = int((1.00 - t)*y + t*y2);
+		if (BoardManager::Instance()->GetTile(dy, dx)->displayChar != _WALL_CHAR) {
+			BoardManager::Instance()->UpdatePlayerVision(dy, dx);
+		}
+		else {
+			BoardManager::Instance()->UpdatePlayerVision(dy, dx);
+			return;
+		}
+		t += s;
+	}
+}
+/* End section modified from: http://www.roguebasin.com/index.php?title=LOS_by_Odd */
+
 // Check if movement is possible in given direction
 bool Player::AttemptMove(const int& yDir,const int& xDir)
 {
-	int newRow = currentRow + yDir;
-	int newCol = currentCol + xDir;
 
-	return BoardManager::Instance()->CanMove(newRow, newCol);
+	if (BoardManager::Instance()->CanEnemySeePlayer(this))
+	{
+		int newRow = currentRow + yDir;
+		int newCol = currentCol + xDir;
+
+		return BoardManager::Instance()->CanMove(newRow, newCol);
+	}
+
+	return false;
 }
 
 // Move player in specified direction

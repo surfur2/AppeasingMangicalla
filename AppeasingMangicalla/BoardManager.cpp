@@ -5,6 +5,7 @@
 #include "BoardManager.h"
 #include "Mangicalla.h"
 #include "DustBunny.h"
+#include "DustBunnySmart.h"
 #include <iostream>
 
 using namespace std;
@@ -58,6 +59,11 @@ BoardManager::BoardManager()
 					break;
 				case GameObjects::dustbunny:
 					Mover* enemy = new DustBunny(i, k);
+					enemies.push_back(enemy);
+					row.push_back(enemy);
+					break;
+				case GameObjects::spider:
+					Mover* enemy = new DustBunnySmart(i, k);
 					enemies.push_back(enemy);
 					row.push_back(enemy);
 					break;
