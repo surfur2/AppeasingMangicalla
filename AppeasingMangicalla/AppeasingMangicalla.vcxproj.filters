@@ -57,10 +57,10 @@
     <ClCompile Include="Interactable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DustBunnySmart.cpp">
+    <ClCompile Include="PathFinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PathFinder.cpp">
+    <ClCompile Include="Spider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -107,10 +107,10 @@
     <ClInclude Include="Includes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DustBunnySmart.h">
+    <ClInclude Include="PathFinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PathFinder.h">
+    <ClInclude Include="Spider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
