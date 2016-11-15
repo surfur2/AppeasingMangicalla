@@ -43,11 +43,11 @@ int main()
 		bool validInput = false;
 		char temp;
 		
-		// Get input from player
 		brdMgr->WriteGrid(needsHelp, needsKey);
 		needsHelp = false;
 		needsKey = false;
 		int i = 0;
+		// Get input from player
 		while (!validInput)
 		{
 			if (i != 0)

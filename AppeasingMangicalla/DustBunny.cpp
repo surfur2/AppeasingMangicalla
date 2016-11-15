@@ -12,6 +12,7 @@ DustBunny::DustBunny(int cRow, int cCol) : Mover(cRow, cCol)
 	minDamage = Globals::GetDustBunnyMinDamage();
 	maxDamage = Globals::GetDustBunnyMaxDamage();
 	type = GameObjects::dustbunny;
+	hasSeenPlayer = false;
 }
 
 DustBunny::~DustBunny() {}

@@ -19,16 +19,12 @@ BoardManager* BoardManager::Instance()
 	return instance;
 }
 
-bool CanEnemySeePlayer(Mover* enemy)
-{
-	return true;
-}
-
 void BoardManager::DestroyInstance()
 {
 	delete BoardManager::instance;
 	instance = nullptr;
 }
+
 
 BoardManager::BoardManager()
 {
@@ -92,11 +88,16 @@ BoardManager::~BoardManager()
 void BoardManager::WriteGrid(const bool& needsHelp, const bool& needsKey)
 {
 	system("CLS");
+	player->CalculateFov();
+
 	for (int i = 0; i < Globals::GetRows(); i++)
 	{
 		for (int k = 0; k < Globals::GetCols(); k++)
 		{
-			cout << board[i][k]->displayChar;
+			if (board[i][k]->playerCanSee)
+				cout << board[i][k]->displayChar;
+			else
+				cout << " ";
 		}
 
 		cout << endl;
@@ -203,7 +204,6 @@ Player* BoardManager::CanEnemyAttack(const int& nRow, const int& nCol)
 	return nullptr;
 }
 
-
 bool BoardManager::AttemptPlayerAction(const int& yDir, const int& xDir)
 {
 	bool playerCanAttack = false;
@@ -242,6 +242,7 @@ bool BoardManager::AttemptPlayerAction(const int& yDir, const int& xDir)
 		HaveEnemiesMove();
 
 		player->AddStepTaken();
+		ResetVision();
 		return true;
 	}
 
@@ -275,6 +276,7 @@ void BoardManager::HaveEnemiesMove()
 	}
 
 }
+
 
 // Destroy an enemy from the game
 void BoardManager::DestroyPiece(Mover* enemy)
@@ -393,5 +395,39 @@ void BoardManager::operator=(const BoardManager& rhs)
 			AddPrintAction(rhs.printableActions[i]);
 	}
 
+}
+
+bool BoardManager::CanEnemySeePlayer(Mover* enemy)
+{
+	return enemy->hasSeenPlayer;
+}
+
+void BoardManager::UpdatePlayerVision(int cRow, int cCol)
+{
+	board[cRow][cCol]->playerCanSee = true;
+
+	if (board[cRow][cCol]->IsEnemy())
+	{
+		Mover* temp = dynamic_cast<Mover*>(board[cRow][cCol]);
+		temp->hasSeenPlayer = true;
+	}
+}
+
+void BoardManager::ResetVision()
+{
+	for (int i = 0; i < board.size(); i++)
+	{
+		for (int k = 0; k < board[i].size(); k++)
+		{
+			board[i][k]->playerCanSee = false;
+		}
+	}
+}
+
+GameObject* BoardManager::GetTile(const int& nRow, const int& nCol) {
+	if (nRow < Globals::GetRows() && nRow < Globals::GetCols())
+		return board[nRow][nCol];
+	else
+		return nullptr;
 }
 

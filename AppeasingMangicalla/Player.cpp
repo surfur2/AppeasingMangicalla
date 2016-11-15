@@ -18,6 +18,7 @@ Player::Player(int cRow, int cCol) : Mover (cRow, cCol)
 	damageTaken = 0;
 	stepsTaken = 0;
 	srand(time(NULL));
+	hasSeenPlayer = true;
 }
 
 Player::Player(const Player& player)
