@@ -79,15 +79,10 @@ void Player::DrawlineMod(int x, int y, int x2, int y2) {
 bool Player::AttemptMove(const int& yDir,const int& xDir)
 {
 
-	if (BoardManager::Instance()->CanEnemySeePlayer(this))
-	{
-		int newRow = currentRow + yDir;
-		int newCol = currentCol + xDir;
+	int newRow = currentRow + yDir;
+	int newCol = currentCol + xDir;
 
-		return BoardManager::Instance()->CanMove(newRow, newCol);
-	}
-
-	return false;
+	return BoardManager::Instance()->CanMove(newRow, newCol);
 }
 
 // Move player in specified direction

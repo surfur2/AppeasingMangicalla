@@ -8,8 +8,11 @@ public:
 	~DustBunnySmart();
 
 	// Attempt a move
-	bool AttemptMove();
+	bool AttemptMove(const int& playerPosY, const int& playerPosX);
 	// Actually move
-	void MovePiece(const int& playerPosY, const int& playerPosX);
+	void MovePiece();
+
+private:
+	std::pair<int, int>& currentMoveTile;
 };
 

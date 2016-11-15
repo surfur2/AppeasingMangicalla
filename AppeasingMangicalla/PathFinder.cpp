@@ -17,7 +17,7 @@ PathFinder::~PathFinder()
 {
 }
 
-std::pair<int, int> PathFinder::FindPath()
+const std::pair<int, int>& PathFinder::FindPath()
 {
 	ast.tiles[startX][startY].parent = make_pair(-1, -1);
 	CalculatePath();
