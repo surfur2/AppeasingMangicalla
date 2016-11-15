@@ -5,7 +5,7 @@
 #include "BoardManager.h"
 #include "Mangicalla.h"
 #include "DustBunny.h"
-#include "DustBunnySmart.h"
+#include "Spider.h"
 #include <iostream>
 
 using namespace std;
@@ -30,7 +30,7 @@ void BoardManager::DestroyInstance()
 BoardManager::BoardManager()
 {
 	gameIsOver = false;
-
+	Mover* enemy = nullptr;
 	const vector<vector<int>> tempMap = Globals::GetMap();
 
 	for (int i = 0; i < Globals::GetRows(); i++)
@@ -58,12 +58,12 @@ BoardManager::BoardManager()
 					row.push_back(mangicalla);
 					break;
 				case GameObjects::dustbunny:
-					Mover* enemy = new DustBunny(i, k);
+					enemy = new DustBunny(i, k);
 					enemies.push_back(enemy);
 					row.push_back(enemy);
 					break;
 				case GameObjects::spider:
-					Mover* enemy = new DustBunnySmart(i, k);
+					enemy = new Spider(i, k);
 					enemies.push_back(enemy);
 					row.push_back(enemy);
 					break;
@@ -274,7 +274,7 @@ void BoardManager::HaveEnemiesMove()
 {
 	for (int i = 0; i < enemies.size(); i++)
 	{
-		if (!enemies[i]->hasMoved)
+		if (!enemies[i]->hasMoved && enemies[i]->AttemptMove(player->currentRow, player->currentCol))
 			enemies[i]->MovePiece(enemies[i]->currentRow, enemies[i]->currentCol);
 
 		// We also reset the movement here

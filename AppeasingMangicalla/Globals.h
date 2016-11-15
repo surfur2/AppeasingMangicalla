@@ -34,6 +34,14 @@ private:
 	static int dustBunnyMaxDamage;
 	static int dustBunnyFov;
 
+	// Spider constants
+	static char spiderDisplayChar;
+	static int spiderGoldVal;
+	static int spiderHealth;
+	static int spiderMinDamage;
+	static int spiderMaxDamage;
+	static int spiderFov;
+
 	// mangicalla constants
 	static char mangicallaDisplayChar;
 	static int mangicallaGoldVal;
@@ -64,7 +72,15 @@ public:
 	static int GetDustBunnyMaxDamage() { return dustBunnyMaxDamage; };
 	static int GetDustBunnyFov() { return dustBunnyFov; };
 
-	// DustBunny Get constants
+	// Spider Get constants
+	static char GetSpiderDisplayChar() { return spiderDisplayChar; };
+	static int GetSpiderGoldVal() { return spiderGoldVal; };
+	static int GetSpiderHealth() { return spiderHealth; };
+	static int GetSpiderMinDamage() { return spiderMinDamage; };
+	static int GetSpiderMaxDamage() { return spiderMaxDamage; };
+	static int GetSpiderFov() { return spiderFov; };
+
+	// Mangicalla Get constants
 	static char GetMangicallaDisplayChar() { return mangicallaDisplayChar; };
 	static int GetMangicallaGoldVal() { return mangicallaGoldVal; };
 	static int GetMangicallaHealth() { return mangicallaHealth; };

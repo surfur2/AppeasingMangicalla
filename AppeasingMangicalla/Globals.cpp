@@ -20,6 +20,13 @@ int Globals::dustBunnyMinDamage;
 int Globals::dustBunnyMaxDamage;
 int Globals::dustBunnyFov;
 
+char Globals::spiderDisplayChar;
+int Globals::spiderGoldVal;
+int Globals::spiderHealth;
+int Globals::spiderMinDamage;
+int Globals::spiderMaxDamage;
+int Globals::spiderFov;
+
 char Globals::mangicallaDisplayChar;
 int Globals::mangicallaGoldVal;
 int Globals::mangicallaHealth;

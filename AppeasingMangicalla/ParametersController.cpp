@@ -106,6 +106,29 @@ void ParametersController::ReadParameters()
 				string params = parameter.substr(pos1 + 1, parameter.length() - pos1);
 
 				pos1 = params.find('/');
+				Globals::spiderDisplayChar = params[0];
+
+				int pos2 = params.find('/', pos1 + 1);
+				Globals::spiderGoldVal = stoi(params.substr(pos1 + 1, pos2), nullptr);
+
+				pos1 = params.find('/', pos2 + 1);
+				Globals::spiderHealth = stoi(params.substr(pos2 + 1, pos1), nullptr);
+
+				pos2 = params.find('/', pos1 + 1);
+				Globals::spiderMinDamage = stoi(params.substr(pos1 + 1, pos2), nullptr);
+
+				pos1 = params.find('/', pos2 + 1);
+				Globals::spiderMaxDamage = stoi(params.substr(pos2 + 1, pos1), nullptr);
+
+				pos2 = params.find('/', pos1 + 1);
+				Globals::spiderFov = stoi(params.substr(pos1 + 1, pos2), nullptr);
+			}
+			else if (i == 4)
+			{
+				int pos1 = parameter.find('-');
+				string params = parameter.substr(pos1 + 1, parameter.length() - pos1);
+
+				pos1 = params.find('/');
 				Globals::mangicallaDisplayChar = params[0];
 
 				int pos2 = params.find('/', pos1 + 1);
