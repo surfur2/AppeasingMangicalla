@@ -424,3 +424,10 @@ void BoardManager::ResetVision()
 	}
 }
 
+GameObject* BoardManager::GetTile(const int& nRow, const int& nCol) {
+	if (nRow < Globals::GetRows() && nRow < Globals::GetCols())
+		return board[nRow][nCol];
+	else
+		return nullptr;
+}
+

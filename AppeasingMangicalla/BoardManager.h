@@ -72,4 +72,5 @@ public:
 	void GameIsOver() { gameIsOver = true; };
 	bool IsGameOver() { return gameIsOver; };
 	bool AreEnemiesDead() { return enemies.empty(); };
+	GameObject* GetTile(const int& nRow, const int& nCol);
 };

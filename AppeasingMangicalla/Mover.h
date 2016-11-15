@@ -40,5 +40,8 @@ protected:
 	int maxDamage;
 	int health;
 	int radiusFov;
+private:
+	void drawline_mod(int x, int y, int x2, int y2);
 };
+
 
