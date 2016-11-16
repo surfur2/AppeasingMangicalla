@@ -9,6 +9,7 @@ using namespace std;
 
 class Mover;
 class Player;
+class Spider;
 class Mangicalla;
 
 /* Contains the definitions for the game board as well as manages the current state of the game.*/

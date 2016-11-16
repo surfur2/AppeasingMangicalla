@@ -18,7 +18,7 @@ PathFinder::~PathFinder()
 {
 }
 
-const std::pair<int, int>& PathFinder::FindPath()
+Stack_int_pairs& PathFinder::FindPath()
 {
 	ast.tiles[startX][startY].parent = make_pair(-1, -1);
 	CalculatePath();
@@ -35,7 +35,7 @@ const std::pair<int, int>& PathFinder::FindPath()
 	//Pop the current position which in in stack
 	Pop(ast.path);
 
-	return ast.path.list[ast.path.top];
+	return ast.path;
 }
 
 void PathFinder::Add(Stack_int_pairs& stack, int x, int y)

@@ -40,7 +40,7 @@ public:
 	PathFinder(int x1, int y1, int x2, int y2);
 	~PathFinder();
 
-	const std::pair<int, int>& FindPath();
+	Stack_int_pairs& FindPath();
 
 private:
 	void Add(Stack_int_pairs& stack, int x, int y);

@@ -17,6 +17,6 @@ public:
 	// Actually attack
 	void Attack(Mover& hitCollision);
 
-	Stack_int_pairs currentPath;
+	Stack_int_pairs currentPathList;
 };
 

@@ -156,11 +156,11 @@ void BoardManager::PrintSpiderPaths()
 {
 	for (int i = 0; i < spiders.size(); i++)
 	{
-		int size = sizeof(spiders[i]->currentPath.list) / sizeof(std::pair<int, int>);
+		int size = sizeof(spiders[i]->currentPathList.list) / sizeof(std::pair<int, int>);
 
 		for (int k = 0; k < size; k++)
 		{
-			std::pair<int, int> nextTile = spiders[i]->currentPath.list[k];
+			std::pair<int, int> nextTile = spiders[i]->currentPathList.list[k];
 			std::pair<std::pair<int, int>, char> dictionaryEntry = make_pair(nextTile, board[nextTile.second][nextTile.first]->displayChar);
 			tempChars.push_back(dictionaryEntry);
 			board[nextTile.second][nextTile.first]->displayChar = 'X';
