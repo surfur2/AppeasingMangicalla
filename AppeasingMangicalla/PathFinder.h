@@ -1,6 +1,5 @@
 #pragma once
 #include <utility>
-#include "MyList.h"
 #define MAX_HEIGHT_ASTAR 100
 #define MAX_WIDTH_ASTAR 100
 #include <vector>
@@ -22,12 +21,9 @@ struct Astar_tile
 struct Astar
 {
 	Astar_tile tiles[MAX_HEIGHT_ASTAR][MAX_WIDTH_ASTAR];
-	//Stack_int_pairs open;
-	//Stack_int_pairs closed;
-	//Stack_int_pairs path;
-	MyList<std::pair<int, int>> open;
-	MyList<std::pair<int, int>> closed;
-	MyList<std::pair<int, int>> path;
+	Stack_int_pairs open;
+	Stack_int_pairs closed;
+	Stack_int_pairs path;
 };
 
 // Functor call for comparing two values. Can be of any type that has < overloaded.

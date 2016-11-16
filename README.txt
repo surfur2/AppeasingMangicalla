@@ -51,3 +51,10 @@ Implementation:
 	- Check if movement is possible and then add the tile in open if it does not exist in open already. If it does exist in open already then compare the f value. If f value in open is greater then delete the copy in open and add this tile otherwise discard the current tile.
 - We loop to step 2 and pop the top tile in open and continue this process till the end tile is found in closed stack.
 - Now using the end tile structure to get its preceeding tile and looping this process of getting the preceeding tile till we reach start, we get the whole path which is stored in the path stack.
+
+
+##########################################
+
+Working stack - Have used structs for stacks and all the implementation is in the PathFinder
+
+Also, the solution has code for a TEMPLATE STACK that was causing runtime memory access issues.
