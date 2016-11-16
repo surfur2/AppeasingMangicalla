@@ -20,13 +20,18 @@ struct Astar_tile
 
 struct Astar
 {
-	//std::vector<std::vector<int*>> fVal;
-	//std::vector<std::vector<int*>> gVal;
-	//std::vector<std::vector<int*>> hVal;
 	Astar_tile tiles[MAX_HEIGHT_ASTAR][MAX_WIDTH_ASTAR];
 	Stack_int_pairs open;
 	Stack_int_pairs closed;
 	Stack_int_pairs path;
+};
+
+// Functor call for comparing two values. Can be of any type that has < overloaded.
+template <typename T>
+class CompareSwapValues
+{
+	public:
+		bool operator()(const T &a, const T &b) const { return a < b; };
 };
 
 class PathFinder

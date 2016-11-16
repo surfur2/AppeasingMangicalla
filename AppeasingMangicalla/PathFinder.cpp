@@ -110,14 +110,13 @@ bool PathFinder::FindInStack(Stack_int_pairs& stack, std::pair<int, int>& tile) 
 }
 
 
-
 void PathFinder::Sort(Stack_int_pairs& stack)
 {
 	for (int i = 0; i <= stack.top; i++)
 	{
 		for (int j = 0; j <= stack.top - i; j++)
 		{
-			if (ast.tiles[stack.list[j].first][stack.list[j].second].fVal < ast.tiles[stack.list[j + 1].first][stack.list[j + 1].second].fVal)
+			if (CompareSwapValues<int>()(ast.tiles[stack.list[j].first][stack.list[j].second].fVal, ast.tiles[stack.list[j + 1].first][stack.list[j + 1].second].fVal))
 			{
 				std::pair<int, int> temp = stack.list[j];
 				stack.list[j] = stack.list[j + 1];
@@ -126,7 +125,6 @@ void PathFinder::Sort(Stack_int_pairs& stack)
 		}
 	}
 }
-
 
 
 // Calculate the best path

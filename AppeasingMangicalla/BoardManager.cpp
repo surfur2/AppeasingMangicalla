@@ -139,6 +139,9 @@ void BoardManager::WriteGrid(const bool& needsHelp, const bool& needsKey)
 		cout << "Player: " << Globals::GetPlayerDisplayChar() << endl;
 		cout << "Mangicalla: " << Globals::GetMangicallaDisplayChar() << endl;
 		cout << "'Dustbunnies': " << Globals::GetDustBunnyDisplayChar() << endl;
+		cout << "'Spiders': " << Globals::GetSpiderDisplayChar() << endl;
+		cout << "Spider Pathing Char: " << 'X' << endl;
+
 	}
 	
 	// Print the help to help
