@@ -3,6 +3,7 @@
 #include "MyList.h"
 #define MAX_HEIGHT_ASTAR 100
 #define MAX_WIDTH_ASTAR 100
+#include <vector>
 
 struct Stack_int_pairs
 {
@@ -44,13 +45,12 @@ public:
 	PathFinder(int x1, int y1, int x2, int y2);
 	~PathFinder();
 
-	const std::pair<int, int>& FindPath();
+	const std::pair<int,int>& FindPath();
+	std::pair<int, int> Pop(Stack_int_pairs& stack);
 
 private:
 	void Add(Stack_int_pairs& stack, int x, int y);
-	void Delete(Stack_int_pairs& stack, std::pair<int, int> pairToDelete);
 	void AddInAstarOpen(int x, int y);
-	std::pair<int, int> Pop(Stack_int_pairs& stack);
 	bool FindInStack(Stack_int_pairs& stack, std::pair<int, int>& tile) const;
 	void Sort(Stack_int_pairs& stack);
 	void CalculatePath();
@@ -59,5 +59,6 @@ private:
 	int Calc_fval(int hVal, int gVal);
 	void CalculateValuesforTile(int x, int y);
 	void CheckCalculatedValues(int xBeingChecked, int yBeingChecked, std::pair<int, int> currentTilePos);
+	void Delete(Stack_int_pairs & stack, std::pair<int, int> pairToDelete);
 };
 

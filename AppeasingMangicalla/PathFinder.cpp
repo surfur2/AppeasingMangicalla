@@ -1,5 +1,5 @@
 #include "PathFinder.h"
-//#include <vector>
+#include <vector>
 #include <cmath>
 #include "BoardManager.h"
 
@@ -27,7 +27,7 @@ const std::pair<int, int>& PathFinder::FindPath()
 
 	Add(ast.path, tilePos.first, tilePos.second);
 
-	while (/*tilePos.first != startX && tilePos.second != startY && */FindInStack(ast.closed, ast.tiles[tilePos.first][tilePos.second].parent))
+	while (FindInStack(ast.closed, ast.tiles[tilePos.first][tilePos.second].parent))
 	{
 		tilePos = ast.tiles[tilePos.first][tilePos.second].parent;
 		Add(ast.path, tilePos.first, tilePos.second);

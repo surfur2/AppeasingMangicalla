@@ -1,5 +1,7 @@
 #pragma once
 #include "DustBunny.h"
+#include "PathFinder.h"
+#include <vector>
 class Spider :
 	public Mover
 {
@@ -16,7 +18,6 @@ public:
 	// Actually attack
 	void Attack(Mover& hitCollision);
 
-private:
-	std::pair<int, int> currentMoveTile;
+	vector<std::pair<int, int>> currentPathList;
 };
 
