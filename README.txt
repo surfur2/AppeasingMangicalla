@@ -1,5 +1,5 @@
 Title: Appeasing Mangicalla
-Author:  Nathaniel Blair (I was the only group of one)
+Author:  Nathaniel Blair and Akshay Rachapudi
 
 Description:  
 You appear to have been summoned to the domain of Mangicalla, a powerful Wizard, against your own free will. 
@@ -10,6 +10,8 @@ Players:
 P- Player: This is you! Try to avoid taking damage from the enemies that plague Mangicallas mansion and complete your task as fast as possible.
 M- Mangicalla: This is the lord of the manor. Talk to him when you feel your task is complete. Do not yo upset him... too much.
 D- DustBunny: These little critters are everywhere. The dustbunnies in your house sure don't fight back when you try to clean them...
+S- Spider: Creppy crawlers that will follow you around in the game. Try not to get cornered!
+X- Pathing for spiders: If you want to know where the spiders are going next, follow the X.
 
 System Requirements:
 1) This game was built for Windows systems specifically. It counts on DOS, Windows 3.x, Phar Lap, DOSX, OS/2, or Win32 C compilers being present to run.
@@ -26,27 +28,26 @@ Right click the project in visual studio solution explorer and click "update vis
 
 
 Notes on Grading:
-One of the requirments for this project was to use the Big Three somewhere in the class structure. 
-However, the big three include both the copy constructor and the copy assignment operator.
-It was an intentional design desision of the game to have very tight managment of the objects being used, no dublicates of objects was desired.
-You will notice that most of the classes either use:
-a) A singleton architecture, enforcing that only one instance is ever allowed to be instantiated.
-b) Are a member of BoardManager, whcih wants to manage exactly which objects are instantiated and keep the only reference to them.
+A* Algorithm
 
-For this reason, creating a copy construcot and an copy assignment operator on any of my classes was agains the architecture I was trying to enforce.
-Furthermore, I would argue this was not necessarily a negative approach to take. It should lead to faster code that has a lower chance of a memory leak.
+A* is a heuristic search technique used to find the find the best way with the least cost.
+The basic equation is f(n) = g(n) + h(n).
+f(n) is the heuristic value to reach the destination from n.
+g(n) is the cost to reach from start to n.
+h(n) is the cost to reach the destination from n.
 
-However, I have created both in BoardManager, to show I am not trying to skirt a requirment. They are both private members so that there would be no confusion to actually use them.
-If it was my choice, I would have intentionally not created any copy constrctors or copy assignment operators.
+We used a 2D array of struct tiles that stores f, g and h value for each tile. This struct also has a variable that stores the preceeding tile in path.
 
-If this takes away from my overall grade I accept that, however one of my personal goals of this course is to learn better practices on software development. 
-Any comments on where or how I could or should have used them would be much appreciated, as well as and overall comments on the structure of my code.
+In our implementation, we used 3 stacks:
+1) open stack - that stores all the tiles in consideration and is sorted in decreasing order of f value.
+2) closed stack - that stores all the tiles that have been considered
+3) path stack - that stores the final path
 
-Bonus Points:
-1)As mentioned above, singletons were intentionally used in many of the classes to make sure a user of the code could only every have one 'source of truth' for the state of the game.
-This is an object-oriented design pattern.
-2) Factory architecutre was used for creating the singletons. Only the intended parts of the instance were exposed as public methods in the header file.
-Another object-oriented design pattern.
-3) While the save functionality was not included in the scope, all of the necessary architecture is there. The objects are serialized from a map in a file,
-and the process could easily be reversed to write the current state of a file.
-I dont know if this is enough for bonus points... but I am really proud of how well the system turned out.
+Implementation:
+- Starting from the current position, we push the current position in open at initialize.
+- We start by popping the tile with the least f value (i.e. the top of the stack)
+- Then we check if this tile is in closed stack. It it is in closed stack then check if the f value of the tile in closed stack is more than the f value currently. If it is more, then delete the copy in closed stack and push this tile, otherwise, disregard this tile.
+- Next, we check the 4 directions (Up, down, left and right) of movement from the current tile.
+	- Check if movement is possible and then add the tile in open if it does not exist in open already. If it does exist in open already then compare the f value. If f value in open is greater then delete the copy in open and add this tile otherwise discard the current tile.
+- We loop to step 2 and pop the top tile in open and continue this process till the end tile is found in closed stack.
+- Now using the end tile structure to get its preceeding tile and looping this process of getting the preceeding tile till we reach start, we get the whole path which is stored in the path stack.

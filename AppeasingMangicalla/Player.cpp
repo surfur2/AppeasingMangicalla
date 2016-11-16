@@ -44,6 +44,7 @@ Player::~Player()
 }
 
 /* Modified from: http://www.roguebasin.com/index.php?title=LOS_by_Odd */
+// Check the player field of view calculation
 void Player::CalculateFov()
 {
 	int x, y;
@@ -51,10 +52,12 @@ void Player::CalculateFov()
 	for (double f = 0; f < 3.14 * 2; f += 0.05) {
 		x = int(radiusFov*cos(f)) + currentCol;
 		y = int(radiusFov*sin(f)) + currentRow;
-		DrawlineMod(currentCol, currentRow, x, y);
+		DrawlineMod(currentCol, currentRow, x, y); // Draw lines incremented every .05 in a circle
 	}
 }
 
+// Draw a line between the player current position and the end of their field of view.
+// Increment along this line noting every tile that is passed.
 void Player::DrawlineMod(int x, int y, int x2, int y2) {
 	int dx = abs(x - x2);
 	int dy = abs(y - y2);
