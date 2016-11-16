@@ -156,15 +156,14 @@ void BoardManager::PrintSpiderPaths()
 {
 	for (int i = 0; i < spiders.size(); i++)
 	{
-		int size = sizeof(spiders[i]->currentPathList.list) / sizeof(std::pair<int, int>);
-
-		for (int k = 0; k < size; k++)
+		for (int k = 1; k + 1 < spiders[i]->currentPathList.size(); k++)
 		{
-			std::pair<int, int> nextTile = spiders[i]->currentPathList.list[k];
+			std::pair<int, int> nextTile = spiders[i]->currentPathList[k];
 			std::pair<std::pair<int, int>, char> dictionaryEntry = make_pair(nextTile, board[nextTile.second][nextTile.first]->displayChar);
 			tempChars.push_back(dictionaryEntry);
 			board[nextTile.second][nextTile.first]->displayChar = 'X';
 		}
+		spiders[i]->currentPathList.clear();
 	}
 }
 
@@ -175,6 +174,7 @@ void BoardManager::ResetSpiderPaths()
 		std::pair<std::pair<int, int>, char> dictionaryEntry = tempChars[i];
 		board[dictionaryEntry.first.second][dictionaryEntry.first.first]->displayChar = dictionaryEntry.second;
 	}
+	tempChars.clear();
 }
 
 void BoardManager::WriteGameExit()
@@ -318,7 +318,13 @@ void BoardManager::HaveEnemiesMove()
 void BoardManager::DestroyPiece(Mover* enemy)
 {
 	auto temp = find(enemies.begin(), enemies.end(), enemy);
+	auto tempSpider = find(spiders.begin(), spiders.end(), enemy);
 
+	if (tempSpider != spiders.end())
+	{
+		swap(*tempSpider, spiders.back());
+		spiders.pop_back();
+	}
 	// Remove from current enemy list
 	if (temp != enemies.end())
 	{

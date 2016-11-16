@@ -1,5 +1,5 @@
 #include "PathFinder.h"
-//#include <vector>
+#include <vector>
 #include <cmath>
 #include "BoardManager.h"
 
@@ -18,7 +18,7 @@ PathFinder::~PathFinder()
 {
 }
 
-Stack_int_pairs& PathFinder::FindPath()
+const std::pair<int, int>& PathFinder::FindPath()
 {
 	ast.tiles[startX][startY].parent = make_pair(-1, -1);
 	CalculatePath();
@@ -27,7 +27,7 @@ Stack_int_pairs& PathFinder::FindPath()
 
 	Add(ast.path, tilePos.first, tilePos.second);
 
-	while (/*tilePos.first != startX && tilePos.second != startY && */FindInStack(ast.closed, ast.tiles[tilePos.first][tilePos.second].parent))
+	while (FindInStack(ast.closed, ast.tiles[tilePos.first][tilePos.second].parent))
 	{
 		tilePos = ast.tiles[tilePos.first][tilePos.second].parent;
 		Add(ast.path, tilePos.first, tilePos.second);
@@ -35,7 +35,7 @@ Stack_int_pairs& PathFinder::FindPath()
 	//Pop the current position which in in stack
 	Pop(ast.path);
 
-	return ast.path;
+	return ast.path.list[ast.path.top];
 }
 
 void PathFinder::Add(Stack_int_pairs& stack, int x, int y)
