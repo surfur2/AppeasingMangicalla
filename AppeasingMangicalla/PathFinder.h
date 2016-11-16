@@ -1,5 +1,6 @@
 #pragma once
 #include <utility>
+#include "MyList.h"
 #define MAX_HEIGHT_ASTAR 100
 #define MAX_WIDTH_ASTAR 100
 
@@ -23,9 +24,12 @@ struct Astar
 	//std::vector<std::vector<int*>> gVal;
 	//std::vector<std::vector<int*>> hVal;
 	Astar_tile tiles[MAX_HEIGHT_ASTAR][MAX_WIDTH_ASTAR];
-	Stack_int_pairs open;
-	Stack_int_pairs closed;
-	Stack_int_pairs path;
+	//Stack_int_pairs open;
+	//Stack_int_pairs closed;
+	//Stack_int_pairs path;
+	MyList<std::pair<int, int>> open;
+	MyList<std::pair<int, int>> closed;
+	MyList<std::pair<int, int>> path;
 };
 
 class PathFinder

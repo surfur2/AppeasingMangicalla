@@ -164,6 +164,7 @@
     <ClCompile Include="WindowController.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\MyProjects\RougelikeConsole\RougelikeConsole\MyList.h" />
     <ClInclude Include="DustBunny.h" />
     <ClInclude Include="EmptySpace.h" />
     <ClInclude Include="Floor.h" />

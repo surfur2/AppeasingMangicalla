@@ -113,6 +113,9 @@
     <ClInclude Include="Spider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\MyProjects\RougelikeConsole\RougelikeConsole\MyList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="parameters.txt">
