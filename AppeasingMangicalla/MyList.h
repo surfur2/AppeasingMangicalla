@@ -1,7 +1,7 @@
 #pragma once
 #include <typeinfo>
 //Macro definition for max size of the list
-#define MAX_SIZE 10
+#define MAX_SIZE 1000
 //Macro function definition that return the larger value of the two
 #define GET_MAX(a,b) (a > b) ? a : b
 
@@ -11,17 +11,6 @@ template <typename T>
 class MyList
 {
 
-private:
-	/*struct tNode
-	{
-		T t;
-		tNode* nextNode;
-		tNode* prevNode;
-	};
-
-	tNode* root;
-	tNode* top;*/
-	
 public:
 	//array of objects
 	T* objects;
@@ -65,13 +54,13 @@ public:
 	T pop();					//pop Template object from top
 	T begin() const;			//return the first object
 	T end() const;				//return the last object
-	//void deleteList();
+	bool find(const T& t);		//find object return true if exists
 	void remove(const T& t);	//remove a specific T object that exists in the list
 	int& listEnd();				//return the a refeernce to top
 };
 
 template<typename T>
-inline MyList<T>::MyList() : MyList<T>::MyList(20)
+inline MyList<T>::MyList() : MyList<T>::MyList(100)
 {
 }
 
@@ -81,14 +70,14 @@ inline MyList<T>::MyList(int s)
 	try
 	{
 		if (GET_MAX(s, MAX_SIZE) > MAX_SIZE)
-			throw -1;
+			throw - 1;
 		size = s;
 	}
 	catch (int exception)
 	{
 		size = MAX_SIZE;
 	}
-	
+
 	objects = new T[size];
 	top = 0;
 }
@@ -109,7 +98,7 @@ inline MyList<T>::MyList(const MyList & other)
 	{
 		this->objects = new T[size];
 	}
-	
+
 	for (int i = 0; i < size; i++)
 		this->objects[i] = other.objects[i];
 }
@@ -118,34 +107,23 @@ inline MyList<T>::MyList(const MyList & other)
 template<typename T>
 inline void MyList<T>::push(T & t)
 {
-	if (top == size - 1)
+	if (top > size)
 		abort();
-	objects[top++] = t;
+	objects[++top] = t;
 }
 
 template<typename T>
 inline T MyList<T>::pop()
 {
-	if (top <= 0)
+	if (top < 0)
 		abort();
-	return objects[--top];
-	//if (top == root)
-	//{
-	//	T temp = root->t;
-	//	delete(root);
-	//	return temp;
-	//}
-	//T temp = top->t;
-	//tNode* last = top;
-	//top = top->prevNode;
-	//delete(last);
-	//return temp;
+	return objects[top--];
 }
 
 template<typename T>
 inline T MyList<T>::begin() const
 {
-	
+
 	return objects[0];
 }
 
@@ -180,3 +158,14 @@ inline int & MyList<T>::listEnd()
 	return top;
 }
 
+template<typename T>
+inline bool MyList<T>::find(const T & t)
+{
+	for (int i = 0; i <= top; i++)
+	{
+		if (objects[i] == t)
+			return true;
+	}
+
+	return false;
+}
