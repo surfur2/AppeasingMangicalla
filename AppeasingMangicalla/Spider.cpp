@@ -7,7 +7,6 @@
 
 Spider::Spider(int cRow, int cCol) : Mover(cRow, cCol)
 {
-	currentPathList;
 	displayChar = Globals::GetSpiderDisplayChar();
 	goldVal = Globals::GetSpiderGoldVal();
 	health = Globals::GetSpiderHealth();
@@ -29,10 +28,13 @@ bool Spider::AttemptMove(const int& playerPosY, const int& playerPosX)
 	{		
 		PathFinder currentPath(currentCol, currentRow, playerPosX, playerPosY);
 
-		currentPathList = currentPath.FindPath();
+		currentMoveTile = currentPath.FindPath();
 
-		int newRow = currentPathList.list[currentPathList.top].first;
-		int newCol = currentPathList.list[currentPathList.top].second;
+		int newRow = currentMoveTile.second;
+		int newCol = currentMoveTile.first;
+
+		/*int newRow = currentRow + yDir;
+		int newCol = currentCol + xDir;*/
 
 		return BoardManager::Instance()->CanMove(newRow, newCol);
 	}
@@ -42,8 +44,11 @@ bool Spider::AttemptMove(const int& playerPosY, const int& playerPosX)
 // This is where A* will be used for finding the path to player.
 void Spider::MovePiece(const int& yDir, const int& xDir)
 {	
-	int newRow = currentPathList.list[currentPathList.top].first;
-	int newCol = currentPathList.list[currentPathList.top].second;
+	int newRow = currentMoveTile.second;
+	int newCol = currentMoveTile.first;
+
+	/*int newRow = currentRow + tileY;
+	int newCol = currentCol + tileX;*/
 
 	BoardManager::Instance()->MovePiece(currentRow, currentCol, newRow, newCol);
 }

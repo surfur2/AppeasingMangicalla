@@ -27,7 +27,7 @@ Stack_int_pairs& PathFinder::FindPath()
 
 	Add(ast.path, tilePos.first, tilePos.second);
 
-	while (tilePos.first != startX && tilePos.second != startY)
+	while (/*tilePos.first != startX && tilePos.second != startY && */FindInStack(ast.closed, ast.tiles[tilePos.first][tilePos.second].parent))
 	{
 		tilePos = ast.tiles[tilePos.first][tilePos.second].parent;
 		Add(ast.path, tilePos.first, tilePos.second);
@@ -42,6 +42,30 @@ void PathFinder::Add(Stack_int_pairs& stack, int x, int y)
 {
 	stack.top++;
 	stack.list[stack.top] = std::make_pair(x, y);
+}
+
+void PathFinder::Delete(Stack_int_pairs & stack, std::pair<int, int> pairToDelete)
+{
+	int i = 0;
+	for (i = 0; i <= stack.top; i++)
+	{
+		if (stack.list[i] == pairToDelete)
+		{
+			break;
+		}
+	}
+
+	if (i == stack.top)
+	{
+		return;
+	}
+
+	while (i < stack.top)
+	{
+		stack.list[i] = stack.list[i + 1];
+	}
+	stack.list[stack.top] = make_pair(0, 0);
+	stack.top--;
 }
 
 void PathFinder::AddInAstarOpen(int x, int y)
@@ -85,6 +109,8 @@ bool PathFinder::FindInStack(Stack_int_pairs& stack, std::pair<int, int>& tile) 
 	return false;
 }
 
+
+
 void PathFinder::Sort(Stack_int_pairs& stack)
 {
 	for (int i = 0; i <= stack.top; i++)
@@ -110,10 +136,15 @@ void PathFinder::CalculatePath()
 	{
 		// get the tile with minimum fVal and store its position
 		std::pair<int, int> currentTilePos = Pop(ast.open);
-		int col = currentTilePos.second;
-		int row = currentTilePos.first;
+		int col = currentTilePos.first;
+		int row = currentTilePos.second;
 
 		//Put the tile we got above into the closed stack
+		if (FindInStack(ast.closed, currentTilePos))
+		{
+			Delete(ast.closed, currentTilePos);
+		}
+		
 		Add(ast.closed, currentTilePos.first, currentTilePos.second);
 
 		if (FindInStack(ast.closed, make_pair(endX, endY)))
@@ -121,6 +152,7 @@ void PathFinder::CalculatePath()
 			break;
 		}
 
+		
 		// Add adjacent tiles to open list
 		// Check tile bellow current tile
 		int yBeingChecked = row + 1;
@@ -167,14 +199,14 @@ void PathFinder::CheckCalculatedValues(int xBeingChecked, int yBeingChecked, std
 				Sort(ast.open);
 			}
 		}
-		else if (FindInStack(ast.closed, make_pair(xBeingChecked, yBeingChecked)))
-		{
-			if (ast.tiles[xBeingChecked][yBeingChecked].fVal > Calc_fval(Calc_hval(xBeingChecked, yBeingChecked), Calc_gval(xBeingChecked, yBeingChecked)))
-			{
-				CalculateValuesforTile(xBeingChecked, yBeingChecked);
-				ast.tiles[xBeingChecked][yBeingChecked].parent = currentTilePos;
-			}
-		}
+		//else if (FindInStack(ast.closed, make_pair(xBeingChecked, yBeingChecked)))
+		//{
+		//	if (ast.tiles[xBeingChecked][yBeingChecked].fVal > Calc_fval(Calc_hval(xBeingChecked, yBeingChecked), Calc_gval(xBeingChecked, yBeingChecked)))
+		//	{
+		//		CalculateValuesforTile(xBeingChecked, yBeingChecked);
+		//		ast.tiles[xBeingChecked][yBeingChecked].parent = currentTilePos;
+		//	}
+		//}
 	}
 }
 

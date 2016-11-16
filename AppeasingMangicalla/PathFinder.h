@@ -44,6 +44,7 @@ public:
 
 private:
 	void Add(Stack_int_pairs& stack, int x, int y);
+	void Delete(Stack_int_pairs& stack, std::pair<int, int> pairToDelete);
 	void AddInAstarOpen(int x, int y);
 	std::pair<int, int> Pop(Stack_int_pairs& stack);
 	bool FindInStack(Stack_int_pairs& stack, std::pair<int, int>& tile) const;
