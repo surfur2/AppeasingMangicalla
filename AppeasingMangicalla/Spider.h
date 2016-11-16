@@ -1,5 +1,6 @@
 #pragma once
 #include "DustBunny.h"
+#include "PathFinder.h"
 class Spider :
 	public Mover
 {
@@ -16,7 +17,6 @@ public:
 	// Actually attack
 	void Attack(Mover& hitCollision);
 
-private:
-	std::pair<int, int> currentMoveTile;
+	Stack_int_pairs currentPath;
 };
 

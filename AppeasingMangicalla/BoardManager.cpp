@@ -63,9 +63,10 @@ BoardManager::BoardManager()
 					row.push_back(enemy);
 					break;
 				case GameObjects::spider:
-					enemy = new Spider(i, k);
-					enemies.push_back(enemy);
-					row.push_back(enemy);
+					Spider* spider = new Spider(i, k);
+					enemies.push_back(spider);
+					spiders.push_back(spider);
+					row.push_back(spider);
 					break;
 			}
 		}
@@ -95,6 +96,8 @@ void BoardManager::WriteGrid(const bool& needsHelp, const bool& needsKey)
 {
 	system("CLS");
 	player->CalculateFov();
+
+	PrintSpiderPaths();
 
 	for (int i = 0; i < Globals::GetRows(); i++)
 	{
@@ -145,6 +148,33 @@ void BoardManager::WriteGrid(const bool& needsHelp, const bool& needsKey)
 
 	cout << endl;
 	cout << "Please enter a move for player: ";
+
+	ResetSpiderPaths();
+}
+
+void BoardManager::PrintSpiderPaths()
+{
+	for (int i = 0; i < spiders.size(); i++)
+	{
+		int size = sizeof(spiders[i]->currentPath.list) / sizeof(std::pair<int, int>);
+
+		for (int k = 0; k < size; k++)
+		{
+			std::pair<int, int> nextTile = spiders[i]->currentPath.list[k];
+			std::pair<std::pair<int, int>, char> dictionaryEntry = make_pair(nextTile, board[nextTile.second][nextTile.first]->displayChar);
+			tempChars.push_back(dictionaryEntry);
+			board[nextTile.second][nextTile.first]->displayChar = 'X';
+		}
+	}
+}
+
+void BoardManager::ResetSpiderPaths()
+{
+	for (int i = 0; i < tempChars.size(); i++)
+	{
+		std::pair<std::pair<int, int>, char> dictionaryEntry = tempChars[i];
+		board[dictionaryEntry.first.second][dictionaryEntry.first.first]->displayChar = dictionaryEntry.second;
+	}
 }
 
 void BoardManager::WriteGameExit()

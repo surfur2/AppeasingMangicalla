@@ -28,13 +28,15 @@ bool Spider::AttemptMove(const int& playerPosY, const int& playerPosX)
 	{		
 		PathFinder currentPath(currentRow, currentCol, playerPosX, playerPosY);
 
-		currentMoveTile = currentPath.FindPath();
+		currentPath = currentPath.FindPath();
+
+		std::pair<int, int> currentTile = currentPath.GetTop();
 
 		int xDir = currentMoveTile.first;
 		int yDir = currentMoveTile.second;
 
 		int newRow = currentRow + yDir;
-		int newCol = currentCol + xDir;
+		int newCol = currentCol + xDir;d
 
 		return BoardManager::Instance()->CanMove(newRow, newCol);
 	}

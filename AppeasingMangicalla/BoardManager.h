@@ -24,14 +24,18 @@ private:
 	Player* player;
 	Mangicalla* mangicalla;
 	vector<Mover*> enemies;
+	vector<Spider*> spiders;
 	vector<vector<GameObject*>> board;
 	vector<string> printableActions; // Stack of statements to print on next grid write
+	vector<std::pair<std::pair<int, int>, char>> tempChars;
 	static BoardManager* instance; // Intance of singleton
 
 	// Enemy movements and attacks
 	void HaveEnemiesAttack();
 	void HaveEnemiesMove();
 	void ResetVision();
+	void PrintSpiderPaths();
+	void ResetSpiderPaths();
 public:
 	// Accessor/destructor for singleton
 	static BoardManager* Instance();
