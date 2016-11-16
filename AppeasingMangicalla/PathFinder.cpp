@@ -9,6 +9,7 @@ PathFinder::PathFinder(int x1, int y1, int x2, int y2) : startX(x1), startY(y1),
 {
 	ast.open.top = -1;
 	ast.closed.top = -1;
+	ast.path.top = -1;
 	AddInAstarOpen(x1, y1);
 	CalculateValuesforTile(x1, y1);
 }
@@ -31,6 +32,9 @@ const std::pair<int, int>& PathFinder::FindPath()
 		tilePos = ast.tiles[tilePos.first][tilePos.second].parent;
 		Add(ast.path, tilePos.first, tilePos.second);
 	}
+	//Pop the current position which in in stack
+	Pop(ast.path);
+
 	return ast.path.list[ast.path.top];
 }
 
@@ -65,7 +69,7 @@ void PathFinder::AddInAstarOpen(int x, int y)
 std::pair<int, int> PathFinder::Pop(Stack_int_pairs& stack)
 {
 	std::pair<int, int> temp = stack.list[stack.top];
-	stack.list[stack.top] = std::make_pair(-1, -1);
+	stack.list[stack.top] = std::make_pair(0, 0);
 	stack.top--;
 	return temp;
 }
@@ -85,7 +89,7 @@ void PathFinder::Sort(Stack_int_pairs& stack)
 {
 	for (int i = 0; i <= stack.top; i++)
 	{
-		for (int j = 0; j <= stack.top - 1; j++)
+		for (int j = 0; j <= stack.top - i; j++)
 		{
 			if (ast.tiles[stack.list[j].first][stack.list[j].second].fVal < ast.tiles[stack.list[j + 1].first][stack.list[j + 1].second].fVal)
 			{
@@ -102,123 +106,73 @@ void PathFinder::Sort(Stack_int_pairs& stack)
 // Calculate the best path
 void PathFinder::CalculatePath()
 {
-	if (FindInStack(ast.closed, make_pair(endX, endY)))
+	while (ast.open.top != -1)
 	{
-		return;
-	}
+		// get the tile with minimum fVal and store its position
+		std::pair<int, int> currentTilePos = Pop(ast.open);
+		int col = currentTilePos.second;
+		int row = currentTilePos.first;
 
-	// get the tile with minimum fVal and store its position
-	std::pair<int, int> currentTilePos = Pop(ast.open);
+		//Put the tile we got above into the closed stack
+		Add(ast.closed, currentTilePos.first, currentTilePos.second);
 
-	//Put the tile we got above into the closed stack
-	Add(ast.closed, currentTilePos.first, currentTilePos.second);
-
-	// Add adjacent tiles to open list
-	
-	if (BoardManager::Instance()->CanMove(currentTilePos.first + 1, currentTilePos.second))
-	{
-		if (!FindInStack(ast.open, make_pair(currentTilePos.first + 1, currentTilePos.second)) && !FindInStack(ast.closed, make_pair(currentTilePos.first + 1, currentTilePos.second)))
+		if (FindInStack(ast.closed, make_pair(endX, endY)))
 		{
-			CalculateValuesforTile(currentTilePos.first + 1, currentTilePos.second);
-			ast.tiles[currentTilePos.first + 1][currentTilePos.second].parent = currentTilePos;
-			AddInAstarOpen(currentTilePos.first + 1, currentTilePos.second);
+			break;
 		}
-		else if (FindInStack(ast.open, make_pair(currentTilePos.first + 1, currentTilePos.second)))
+
+		// Add adjacent tiles to open list
+		// Check tile bellow current tile
+		int yBeingChecked = row + 1;
+		int xBeingChecked = col;
+		
+		CheckCalculatedValues(xBeingChecked, yBeingChecked, currentTilePos);
+
+		// Check tile above current tile
+		yBeingChecked = row - 1;
+		xBeingChecked = col;
+
+		CheckCalculatedValues(xBeingChecked, yBeingChecked, currentTilePos);
+
+		// Check tile left current tile
+		yBeingChecked = row;
+		xBeingChecked = col - 1;
+
+		CheckCalculatedValues(xBeingChecked, yBeingChecked, currentTilePos);
+
+		// Check tile right current tile
+		yBeingChecked = row;
+		xBeingChecked = col + 1;
+
+		CheckCalculatedValues(xBeingChecked, yBeingChecked, currentTilePos);
+	}
+}
+
+void PathFinder::CheckCalculatedValues(int xBeingChecked, int yBeingChecked, std::pair<int, int> currentTilePos)
+{
+	if (BoardManager::Instance()->CanMove(yBeingChecked, xBeingChecked) || BoardManager::Instance()->IsPlayerTile(yBeingChecked, xBeingChecked))
+	{
+		if (!FindInStack(ast.open, make_pair(xBeingChecked, yBeingChecked)) && !FindInStack(ast.closed, make_pair(xBeingChecked, yBeingChecked)))
 		{
-			if (ast.tiles[currentTilePos.first + 1][currentTilePos.second].fVal > Calc_fval(Calc_hval(currentTilePos.first + 1, currentTilePos.second), Calc_gval(currentTilePos.first + 1, currentTilePos.second)))
+			CalculateValuesforTile(xBeingChecked, yBeingChecked);
+			ast.tiles[xBeingChecked][yBeingChecked].parent = currentTilePos;
+			AddInAstarOpen(xBeingChecked, yBeingChecked);
+		}
+		else if (FindInStack(ast.open, make_pair(xBeingChecked, yBeingChecked)))
+		{
+			if (ast.tiles[xBeingChecked][yBeingChecked].fVal > Calc_fval(Calc_hval(xBeingChecked, yBeingChecked), Calc_gval(xBeingChecked, yBeingChecked)))
 			{
-				CalculateValuesforTile(currentTilePos.first + 1, currentTilePos.second);
-				ast.tiles[currentTilePos.first + 1][currentTilePos.second].parent = currentTilePos;
+				CalculateValuesforTile(xBeingChecked, yBeingChecked);
+				ast.tiles[xBeingChecked][yBeingChecked].parent = currentTilePos;
 				Sort(ast.open);
 			}
 		}
-		else if (FindInStack(ast.closed, make_pair(currentTilePos.first + 1, currentTilePos.second)))
+		else if (FindInStack(ast.closed, make_pair(xBeingChecked, yBeingChecked)))
 		{
-			if (ast.tiles[currentTilePos.first + 1][currentTilePos.second].fVal > Calc_fval(Calc_hval(currentTilePos.first + 1, currentTilePos.second), Calc_gval(currentTilePos.first + 1, currentTilePos.second)))
+			if (ast.tiles[xBeingChecked][yBeingChecked].fVal > Calc_fval(Calc_hval(xBeingChecked, yBeingChecked), Calc_gval(xBeingChecked, yBeingChecked)))
 			{
-				CalculateValuesforTile(currentTilePos.first + 1, currentTilePos.second);
-				ast.tiles[currentTilePos.first + 1][currentTilePos.second].parent = currentTilePos;
-			}
-		}
-	}
-
-	if (BoardManager::Instance()->CanMove(currentTilePos.first - 1, currentTilePos.second))
-	{
-		if (!FindInStack(ast.open, make_pair(currentTilePos.first - 1, currentTilePos.second)) && !FindInStack(ast.closed, make_pair(currentTilePos.first - 1, currentTilePos.second)))
-		{
-			CalculateValuesforTile(currentTilePos.first - 1, currentTilePos.second);
-			ast.tiles[currentTilePos.first - 1][currentTilePos.second].parent = currentTilePos;
-			AddInAstarOpen(currentTilePos.first - 1, currentTilePos.second);
-		}
-		else if (FindInStack(ast.open, make_pair(currentTilePos.first - 1, currentTilePos.second)))
-		{
-			if (ast.tiles[currentTilePos.first - 1][currentTilePos.second].fVal > Calc_fval(Calc_hval(currentTilePos.first - 1, currentTilePos.second), Calc_gval(currentTilePos.first - 1, currentTilePos.second)))
-			{
-				CalculateValuesforTile(currentTilePos.first - 1, currentTilePos.second);
-				ast.tiles[currentTilePos.first - 1][currentTilePos.second].parent = currentTilePos;
-				Sort(ast.open);
-			}
-		}
-		else if (FindInStack(ast.closed, make_pair(currentTilePos.first - 1, currentTilePos.second)))
-		{
-			if (ast.tiles[currentTilePos.first - 1][currentTilePos.second].fVal > Calc_fval(Calc_hval(currentTilePos.first - 1, currentTilePos.second), Calc_gval(currentTilePos.first - 1, currentTilePos.second)))
-			{
-				CalculateValuesforTile(currentTilePos.first - 1, currentTilePos.second);
-				ast.tiles[currentTilePos.first - 1][currentTilePos.second].parent = currentTilePos;
-			}
-		}
-	}
-
-	if (BoardManager::Instance()->CanMove(currentTilePos.first, currentTilePos.second + 1))
-	{
-		if (!FindInStack(ast.open, make_pair(currentTilePos.first, currentTilePos.second + 1)) && !FindInStack(ast.closed, make_pair(currentTilePos.first, currentTilePos.second + 1)))
-		{
-			CalculateValuesforTile(currentTilePos.first, currentTilePos.second + 1);
-			ast.tiles[currentTilePos.first][currentTilePos.second + 1].parent = currentTilePos;
-			AddInAstarOpen(currentTilePos.first, currentTilePos.second + 1);
-		}
-		else if (FindInStack(ast.open, make_pair(currentTilePos.first, currentTilePos.second + 1)))
-		{
-			if (ast.tiles[currentTilePos.first][currentTilePos.second + 1].fVal > Calc_fval(Calc_hval(currentTilePos.first, currentTilePos.second + 1), Calc_gval(currentTilePos.first, currentTilePos.second + 1)))
-			{
-				CalculateValuesforTile(currentTilePos.first, currentTilePos.second + 1);
-				ast.tiles[currentTilePos.first][currentTilePos.second + 1].parent = currentTilePos;
-				Sort(ast.open);
-			}
-		}
-		else if (FindInStack(ast.closed, make_pair(currentTilePos.first, currentTilePos.second + 1)))
-		{
-			if (ast.tiles[currentTilePos.first][currentTilePos.second + 1].fVal > Calc_fval(Calc_hval(currentTilePos.first, currentTilePos.second + 1), Calc_gval(currentTilePos.first, currentTilePos.second + 1)))
-			{
-				CalculateValuesforTile(currentTilePos.first, currentTilePos.second + 1);
-				ast.tiles[currentTilePos.first][currentTilePos.second + 1].parent = currentTilePos;
-			}
-		}
-	}
-
-	if (BoardManager::Instance()->CanMove(currentTilePos.first, currentTilePos.second - 1))
-	{
-		if (!FindInStack(ast.open, make_pair(currentTilePos.first, currentTilePos.second - 1)) && !FindInStack(ast.closed, make_pair(currentTilePos.first, currentTilePos.second - 1)))
-		{
-			CalculateValuesforTile(currentTilePos.first, currentTilePos.second - 1);
-			ast.tiles[currentTilePos.first][currentTilePos.second - 1].parent = currentTilePos;
-			AddInAstarOpen(currentTilePos.first, currentTilePos.second - 1);
-		}
-		else if (FindInStack(ast.open, make_pair(currentTilePos.first, currentTilePos.second - 1)))
-		{
-			if (ast.tiles[currentTilePos.first][currentTilePos.second - 1].fVal > Calc_fval(Calc_hval(currentTilePos.first, currentTilePos.second - 1), Calc_gval(currentTilePos.first, currentTilePos.second - 1)))
-			{
-				CalculateValuesforTile(currentTilePos.first, currentTilePos.second - 1);
-				ast.tiles[currentTilePos.first][currentTilePos.second - 1].parent = currentTilePos;
-				Sort(ast.open);
-			}
-		}
-		else if (FindInStack(ast.closed, make_pair(currentTilePos.first, currentTilePos.second - 1)))
-		{
-			if (ast.tiles[currentTilePos.first][currentTilePos.second - 1].fVal > Calc_fval(Calc_hval(currentTilePos.first, currentTilePos.second - 1), Calc_gval(currentTilePos.first, currentTilePos.second - 1)))
-			{
-				CalculateValuesforTile(currentTilePos.first, currentTilePos.second - 1);
-				ast.tiles[currentTilePos.first][currentTilePos.second - 1].parent = currentTilePos;
+				CalculateValuesforTile(xBeingChecked, yBeingChecked);
+				ast.tiles[xBeingChecked][yBeingChecked].parent = currentTilePos;
 			}
 		}
 	}

@@ -53,6 +53,6 @@ private:
 	int Calc_gval(int x, int y);
 	int Calc_fval(int hVal, int gVal);
 	void CalculateValuesforTile(int x, int y);
-
+	void CheckCalculatedValues(int xBeingChecked, int yBeingChecked, std::pair<int, int> currentTilePos);
 };
 
