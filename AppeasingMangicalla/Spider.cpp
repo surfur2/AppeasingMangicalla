@@ -30,8 +30,8 @@ bool Spider::AttemptMove(const int& playerPosY, const int& playerPosX)
 
 		currentMoveTile = currentPath.FindPath();
 
-		int newRow = currentMoveTile.first;
-		int newCol = currentMoveTile.second;
+		int newRow = currentMoveTile.second;
+		int newCol = currentMoveTile.first;
 
 		/*int newRow = currentRow + yDir;
 		int newCol = currentCol + xDir;*/
@@ -44,8 +44,8 @@ bool Spider::AttemptMove(const int& playerPosY, const int& playerPosX)
 // This is where A* will be used for finding the path to player.
 void Spider::MovePiece(const int& yDir, const int& xDir)
 {	
-	int newRow = currentMoveTile.first;
-	int newCol = currentMoveTile.second;
+	int newRow = currentMoveTile.second;
+	int newCol = currentMoveTile.first;
 
 	/*int newRow = currentRow + tileY;
 	int newCol = currentCol + tileX;*/
