@@ -53,7 +53,8 @@ private:
 	void Add(Stack_int_pairs& stack, int x, int y);
 	void AddInAstarOpen(int x, int y);
 	bool FindInStack(Stack_int_pairs& stack, std::pair<int, int>& tile) const;
-	void Sort(Stack_int_pairs& stack);
+	template<typename Lambda>
+	void Sort(Stack_int_pairs& stack, Lambda func);
 	void CalculatePath();
 	int Calc_hval(int x, int y);
 	int Calc_gval(int x, int y);

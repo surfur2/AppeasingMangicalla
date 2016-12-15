@@ -9,7 +9,7 @@
 | |\/||| / \|| |\ ||| |  _| ||  / | / \|| |   | |   | / \|
 | |  ||| |-||| | \||| |_//| ||  \_| |-||| |_/\| |_/\| |-||
 \_/  \|\_/ \|\_/  \|\____\\_/\____|_/ \|\____/\____/\_/ \|
-By: Nate Blair and Akshay Richapudi
+By: Nate Blair and Akshay Rachapudi
 /* Graphic provided by http://www.network-science.de/ascii/ */
 
 __________________________________________________________________

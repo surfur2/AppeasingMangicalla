@@ -75,7 +75,7 @@ void PathFinder::AddInAstarOpen(int x, int y)
 	if (ast.open.top == 0)
 		return;
 	//sort in order of F value priority
-	Sort(ast.open);
+	Sort(ast.open, [] (int a, int b) { return a < b; });
 	//for (int i = 0; i <= ast.open.top; i++) 
 	//{
 	//	for (int j = 0; j <= ast.open.top - 1; j++)
@@ -109,14 +109,16 @@ bool PathFinder::FindInStack(Stack_int_pairs& stack, std::pair<int, int>& tile) 
 	return false;
 }
 
-
-void PathFinder::Sort(Stack_int_pairs& stack)
+template<typename Lambda>
+void PathFinder::Sort(Stack_int_pairs& stack, Lambda func )
 {
 	for (int i = 0; i <= stack.top; i++)
 	{
 		for (int j = 0; j <= stack.top - i; j++)
 		{
-			if (CompareSwapValues<int>()(ast.tiles[stack.list[j].first][stack.list[j].second].fVal, ast.tiles[stack.list[j + 1].first][stack.list[j + 1].second].fVal))
+			int currentFValue = ast.tiles[stack.list[j].first][stack.list[j].second].fVal;
+			int nextFValue = ast.tiles[stack.list[j + 1].first][stack.list[j + 1].second].fVal;
+			if (func(currentFValue, nextFValue))
 			{
 				std::pair<int, int> temp = stack.list[j];
 				stack.list[j] = stack.list[j + 1];
@@ -194,7 +196,7 @@ void PathFinder::CheckCalculatedValues(int xBeingChecked, int yBeingChecked, std
 			{
 				CalculateValuesforTile(xBeingChecked, yBeingChecked);
 				ast.tiles[xBeingChecked][yBeingChecked].parent = currentTilePos;
-				Sort(ast.open);
+				Sort(ast.open, [](int a, int b) { return a < b; });
 			}
 		}
 		//else if (FindInStack(ast.closed, make_pair(xBeingChecked, yBeingChecked)))
