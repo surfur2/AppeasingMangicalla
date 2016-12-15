@@ -119,6 +119,7 @@ void BoardManager::WriteGrid(const bool& needsHelp, const bool& needsKey)
 		cout << endl;
 		// Print the relavent player stats
 		cout << *player;
+		cout << "Mangicalla's Patience: " << game_time;
 
 		// Print previous actions
 		while (!printableActions.empty())
@@ -162,7 +163,6 @@ void BoardManager::WriteGrid(const bool& needsHelp, const bool& needsKey)
 
 		//Print Time
 		gotoxy(WindowController::windowInstance->window_width - 1, WindowController::windowInstance->window_height);
-		cout << "Time Left: " << game_time << endl;
 
 		gotoxy(1, WindowController::windowInstance->window_height);
 

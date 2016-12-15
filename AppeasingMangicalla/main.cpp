@@ -21,6 +21,8 @@ using namespace std;
 	cout << "Invalid input!" << endl; \
 	cout << "Please enter a valid move: "; \
 
+static bool playing = true;
+
 int main()
 {
 	//Read parameters for game
@@ -41,8 +43,7 @@ int main()
 
 	bool needsHelp = true;
 	bool needsKey = false;
-	bool playing = true;
-	
+
 	//Timer using a thread
 	time_t timer;
 	thread TimeThread([&]() {
@@ -52,16 +53,16 @@ int main()
 			time_t currentTime = time(&timer);
 			if (difftime(currentTime, oldTime) >= GAME_SPEED)
 			{
-				//time_game--;
 				brdMgr->game_time--;
-				brdMgr->WriteGrid(needsHelp, needsKey);
 				oldTime = currentTime;
 			}
-
-			if (brdMgr->game_time <= 0)
+			else if (brdMgr->game_time <= 0)
 			{
 				playing = false;
-				auto endGame = []() { system("CLS"); cout << "You have run out of time" << endl; };
+				auto endGame = []() {
+					system("CLS"); 
+					cout << "Mangicalla's patience has its limits... You have tested them beyond the limits of wisdom.\nNext time consider your actions more closely before angering a powerful wizard." << endl; 
+				};
 				endGame();
 				exit(0);
 				return;
@@ -74,9 +75,9 @@ int main()
 	while (playing)
 	{
 
-		bool validInput = false;
 		char temp;
-		
+		bool validInput = false;
+
 		brdMgr->WriteGrid(needsHelp, needsKey);
 		needsHelp = false;
 		needsKey = false;
@@ -140,16 +141,18 @@ int main()
 		if (BoardManager::Instance()->IsGameOver())
 		{
 			brdMgr->WriteGameExit();
+			playing = false;
 			break;
 		}
 	}
 
-	//Joining TimeThread so that main waits for TimeThread to finish before exiting.
-	TimeThread.join();
 
 	// Time to cleanup!
+	//Joining TimeThread so that main waits for TimeThread to finish before exiting.
+	TimeThread.join();
 	ParametersController::DestroyParameterReader();
 	WindowController::DestroyWindow();
 	Globals::DestroyGlobals();
+
 	return 0;
 }
