@@ -20,13 +20,6 @@ BoardManager* BoardManager::Instance()
 	return instance;
 }
 
-void BoardManager::DestroyInstance()
-{
-	delete BoardManager::instance;
-	instance = nullptr;
-}
-
-
 BoardManager::BoardManager()
 {
 	gameIsOver = false;
@@ -90,6 +83,8 @@ BoardManager::~BoardManager()
 	{
 		printableActions.clear();
 	}
+
+	instance = nullptr;
 }
 
 void BoardManager::WriteGrid(const bool& needsHelp, const bool& needsKey)

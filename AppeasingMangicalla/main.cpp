@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "ParametersController.h"
 #include <conio.h>
+#include <memory>
 
 using namespace std;
 
@@ -23,14 +24,14 @@ int main()
 	// Initialize the window for play
 	WindowController::InitializeWindow(75, 100);
 	
-	// Create the board manager for play. Gice main a reference since we will use it so much.
-	BoardManager* brdMgr = BoardManager::Instance();
+	// Create the board manager for play. Give main a reference since we will use it so much.
+	unique_ptr<BoardManager> brdMgr(BoardManager::Instance());
 
 	// Write the introduction
 #ifdef _INTRO
 	ParametersController::InitializeParameterReader("Introduction.txt");
 	ParametersController::ReadIntroduction();
-#endif // _INTRO
+#endif // _INTRO 
 
 	bool needsHelp = true;
 	bool needsKey = false;
@@ -113,7 +114,6 @@ int main()
 	// Time to cleanup!
 	ParametersController::DestroyParameterReader();
 	WindowController::DestroyWindow();
-	brdMgr->DestroyInstance();
 	Globals::DestroyGlobals();
 	return 0;
 }

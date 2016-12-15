@@ -15,7 +15,6 @@ class Mangicalla;
 /* Contains the definitions for the game board as well as manages the current state of the game.*/
 class BoardManager {
 private:
-	~BoardManager();
 	BoardManager();
 	BoardManager(const BoardManager& brdMgr); // SEE README.txt
 	void operator=(const BoardManager& rhs); // See README.txt
@@ -40,7 +39,7 @@ private:
 public:
 	// Accessor/destructor for singleton
 	static BoardManager* Instance();
-	static void DestroyInstance();
+	~BoardManager();
 
 	// Movement for all pieces on the board
 	bool CanMove(const int& nRow, const int& nCol);
