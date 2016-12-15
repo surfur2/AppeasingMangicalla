@@ -6,7 +6,10 @@
 #include "Mangicalla.h"
 #include "DustBunny.h"
 #include "Spider.h"
+#include "WindowController.h"
 #include <iostream>
+
+#define GAME_TIME 100
 
 using namespace std;
 
@@ -22,6 +25,8 @@ BoardManager* BoardManager::Instance()
 
 BoardManager::BoardManager()
 {
+	writeGridLock = false;
+	game_time = GAME_TIME;
 	gameIsOver = false;
 	Mover* enemy = nullptr;
 	const vector<vector<int>> tempMap = Globals::GetMap();
@@ -89,65 +94,84 @@ BoardManager::~BoardManager()
 
 void BoardManager::WriteGrid(const bool& needsHelp, const bool& needsKey)
 {
-	system("CLS");
-	player->CalculateFov();
-
-	PrintSpiderPaths();
-
-	for (int i = 0; i < Globals::GetRows(); i++)
+	if(!writeGridLock)
 	{
-		for (int k = 0; k < Globals::GetCols(); k++)
+		writeGridLock = true;
+		system("CLS");
+		player->CalculateFov();
+
+		PrintSpiderPaths();
+
+		for (int i = 0; i < Globals::GetRows(); i++)
 		{
-			if (board[i][k]->playerCanSee)
-				cout << board[i][k]->displayChar;
-			else
-				cout << " ";
+			for (int k = 0; k < Globals::GetCols(); k++)
+			{
+				if (board[i][k]->playerCanSee)
+					cout << board[i][k]->displayChar;
+				else
+					cout << " ";
+			}
+
+			cout << endl;
+		}
+
+		cout << "Results of Action: " << endl;
+		cout << endl;
+		// Print the relavent player stats
+		cout << *player;
+
+		// Print previous actions
+		while (!printableActions.empty())
+		{
+			cout << printableActions.back().c_str() << endl;
+			printableActions.pop_back();
 		}
 
 		cout << endl;
+		// Print help
+		if (needsHelp)
+		{
+			cout << "Movement: w-up, a-left, s-down, d-right." << endl;
+			cout << "Attack opponent: attempt to move into their square." << endl;
+			cout << "Interact with object: attempt to move into its square." << endl;
+			cout << "Exit Game: x" << endl;
+		}
+		// Print key
+		else if (needsKey)
+		{
+			cout << "Player: " << Globals::GetPlayerDisplayChar() << endl;
+			cout << "Mangicalla: " << Globals::GetMangicallaDisplayChar() << endl;
+			cout << "'Dustbunnies': " << Globals::GetDustBunnyDisplayChar() << endl;
+			cout << "'Spiders': " << Globals::GetSpiderDisplayChar() << endl;
+			cout << "Spider Pathing Char: " << 'X' << endl;
+
+		}
+
+		// Print the help to help
+		cout << endl;
+		cout << "To see commands again: h" << endl;
+		cout << "To see key of objects: k" << endl;
+
+		auto gotoxy = [](int x, int y) {
+			static HANDLE h = WindowController::windowInstance->hConOut;
+			if (!h)
+				h = GetStdHandle(STD_OUTPUT_HANDLE);
+			COORD c = { x, y };
+			SetConsoleCursorPosition(h, c);
+		};
+
+		//Print Time
+		gotoxy(WindowController::windowInstance->window_width - 1, WindowController::windowInstance->window_height);
+		cout << "Time Left: " << game_time << endl;
+
+		gotoxy(1, WindowController::windowInstance->window_height);
+
+		cout << endl;
+		cout << "Please enter a move for player: ";
+
+		ResetSpiderPaths();
+		writeGridLock = false;
 	}
-
-	cout << "Results of Action: " << endl;
-	cout << endl;
-	// Print the relavent player stats
-	cout << *player;
-
-	// Print previous actions
-	while (!printableActions.empty())
-	{
-		cout << printableActions.back().c_str() << endl;
-		printableActions.pop_back();
-	}
-
-	cout << endl;
-	// Print help
-	if (needsHelp)
-	{
-		cout << "Movement: w-up, a-left, s-down, d-right." << endl;
-		cout << "Attack opponent: attempt to move into their square." << endl;
-		cout << "Interact with object: attempt to move into its square." << endl;
-		cout << "Exit Game: x" << endl;
-	}
-	// Print key
-	else if (needsKey)
-	{
-		cout << "Player: " << Globals::GetPlayerDisplayChar() << endl;
-		cout << "Mangicalla: " << Globals::GetMangicallaDisplayChar() << endl;
-		cout << "'Dustbunnies': " << Globals::GetDustBunnyDisplayChar() << endl;
-		cout << "'Spiders': " << Globals::GetSpiderDisplayChar() << endl;
-		cout << "Spider Pathing Char: " << 'X' << endl;
-
-	}
-	
-	// Print the help to help
-	cout << endl;
-	cout << "To see commands again: h" << endl;
-	cout << "To see key of objects: k" << endl;
-
-	cout << endl;
-	cout << "Please enter a move for player: ";
-
-	ResetSpiderPaths();
 }
 
 void BoardManager::PrintSpiderPaths()

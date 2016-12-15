@@ -3,9 +3,15 @@
 #include "WindowController.h"
 #include "Player.h"
 #include "ParametersController.h"
+#include <time.h>
 #include <conio.h>
+#include <stdlib.h>
 #include <memory>
+#include <thread>
 
+#define WINDOW_WIDTH 75
+#define WINDOW_HEIGHT 100
+#define GAME_SPEED 2.5
 using namespace std;
 
 #define _INTRO // Can be commented out to skip intro
@@ -22,7 +28,7 @@ int main()
 	ParametersController::ReadParameters();
 
 	// Initialize the window for play
-	WindowController::InitializeWindow(75, 100);
+	WindowController::InitializeWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
 	
 	// Create the board manager for play. Give main a reference since we will use it so much.
 	unique_ptr<BoardManager> brdMgr(BoardManager::Instance());
@@ -36,6 +42,34 @@ int main()
 	bool needsHelp = true;
 	bool needsKey = false;
 	bool playing = true;
+	
+	//Timer using a thread
+	time_t timer;
+	int time_game = 20;
+	thread TimeThread([&]() {
+		time_t oldTime = time(&timer);
+		while (playing)
+		{
+			time_t currentTime = time(&timer);
+			if (difftime(currentTime, oldTime) >= GAME_SPEED)
+			{
+				//time_game--;
+				brdMgr->game_time--;
+				brdMgr->WriteGrid(needsHelp, needsKey);
+				oldTime = currentTime;
+			}
+
+			if (brdMgr->game_time <= 0)
+			{
+				playing = false;
+				auto endGame = []() { system("CLS"); cout << "You have run out of time" << endl; };
+				endGame();
+				exit(0);
+				return;
+			}
+		}
+	});
+
 
 	// Main game loop
 	while (playing)
@@ -110,7 +144,7 @@ int main()
 			break;
 		}
 	}
-
+	TimeThread.join();
 	// Time to cleanup!
 	ParametersController::DestroyParameterReader();
 	WindowController::DestroyWindow();

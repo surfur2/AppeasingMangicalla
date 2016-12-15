@@ -39,6 +39,9 @@ void WindowController::InitializeWindow(int width, int height)
 {
 	if (windowInstance == nullptr)
 	{
+		window_width = width;
+		window_height = height;
+
 		windowInstance = new WindowController(width, height);
 		
 		SetConsoleWindowInfo(windowInstance->hConOut, TRUE, &(windowInstance->r));
@@ -55,5 +58,8 @@ void WindowController::DestroyWindow()
 	delete windowInstance;
 	windowInstance = nullptr;
 }
+
+int WindowController::window_width;
+int WindowController::window_height;
 
 

@@ -37,6 +37,8 @@ private:
 	void PrintSpiderPaths();
 	void ResetSpiderPaths();
 public:
+	int game_time;
+	bool writeGridLock;
 	// Accessor/destructor for singleton
 	static BoardManager* Instance();
 	~BoardManager();
