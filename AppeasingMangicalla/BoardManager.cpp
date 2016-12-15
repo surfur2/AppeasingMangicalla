@@ -9,7 +9,7 @@
 #include "WindowController.h"
 #include <iostream>
 
-#define GAME_TIME 100
+#define GAME_TIME 150
 
 using namespace std;
 
@@ -119,7 +119,7 @@ void BoardManager::WriteGrid(const bool& needsHelp, const bool& needsKey)
 		cout << endl;
 		// Print the relavent player stats
 		cout << *player;
-		cout << "Mangicalla's Patience: " << game_time;
+		cout << "Mangicalla's Patience: " << game_time << endl;
 
 		// Print previous actions
 		while (!printableActions.empty())
