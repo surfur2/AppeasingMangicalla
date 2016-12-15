@@ -1,3 +1,4 @@
+//Resource used for threading: http://www.cplusplus.com/reference/thread/thread/
 #include "Globals.h"
 #include "BoardManager.h"
 #include "WindowController.h"
@@ -6,7 +7,6 @@
 #include <time.h>
 #include <conio.h>
 #include <stdlib.h>
-#include <memory>
 #include <thread>
 
 #define WINDOW_WIDTH 75
@@ -45,7 +45,6 @@ int main()
 	
 	//Timer using a thread
 	time_t timer;
-	int time_game = 20;
 	thread TimeThread([&]() {
 		time_t oldTime = time(&timer);
 		while (playing)
@@ -144,7 +143,10 @@ int main()
 			break;
 		}
 	}
+
+	//Joining TimeThread so that main waits for TimeThread to finish before exiting.
 	TimeThread.join();
+
 	// Time to cleanup!
 	ParametersController::DestroyParameterReader();
 	WindowController::DestroyWindow();
